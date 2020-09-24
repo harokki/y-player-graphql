@@ -14,6 +14,12 @@ const IndexPage: NextPage = () => {
       playerRef.current.internalPlayer.playVideo()
     }
   }
+  const onEnd = () => {
+    if (playerRef && playerRef.current) {
+      playerRef.current.internalPlayer.pauseVideo()
+      playerRef.current.internalPlayer.seekTo(start)
+    }
+  }
   const opts: Options = {
     height: '390',
     width: '640',
@@ -22,7 +28,12 @@ const IndexPage: NextPage = () => {
   return (
     <>
       <YplayerHeader />
-      <YouTube videoId="2g811Eo7K8U" opts={opts} ref={playerRef} />
+      <YouTube
+        videoId="2g811Eo7K8U"
+        onEnd={onEnd}
+        opts={opts}
+        ref={playerRef}
+      />
       <StartEndForm
         setStart={setStart}
         setEnd={setEnd}
