@@ -1,6 +1,6 @@
 import React from 'react'
 import { NextPage } from 'next'
-import YouTube, { Options, YouTubeProps } from 'react-youtube'
+import YouTube, { Options } from 'react-youtube'
 
 import { StartEndForm } from '@/components/form'
 import { YplayerHeader } from '@/components/header'
