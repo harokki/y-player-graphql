@@ -5,9 +5,14 @@ import styles from './index.module.css'
 type Props = {
   setStart: Dispatch<SetStateAction<number | undefined>>
   setEnd: Dispatch<SetStateAction<number | undefined>>
+  startVideo: () => void
 }
 
-export const StartEndForm: React.FC<Props> = ({ setStart, setEnd }) => {
+export const StartEndForm: React.FC<Props> = ({
+  setStart,
+  setEnd,
+  startVideo,
+}) => {
   return (
     <form className={styles.form}>
       <label>
@@ -26,7 +31,7 @@ export const StartEndForm: React.FC<Props> = ({ setStart, setEnd }) => {
           onChange={(e) => setEnd(parseInt(e.target.value))}
         />
       </label>
-      <input type="submit" value="Play!" />
+      <input type="button" value="Play!" onClick={() => startVideo()} />
     </form>
   )
 }
