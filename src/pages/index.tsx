@@ -5,6 +5,8 @@ import YouTube, { Options } from 'react-youtube'
 import { StartEndForm } from '@/components/form'
 import { YplayerHeader } from '@/components/header'
 
+import styles from './index.module.css'
+
 const IndexPage: NextPage = () => {
   const [start, setStart] = useState<number | undefined>(undefined)
   const [end, setEnd] = useState<number | undefined>(undefined)
@@ -43,7 +45,50 @@ const IndexPage: NextPage = () => {
   return (
     <>
       <YplayerHeader setVideoId={setVideoId} />
-      <YouTube videoId={videoId} onEnd={onEnd} opts={opts} ref={playerRef} />
+      <div className={styles.body}>
+        <div className={styles.youtube}>
+          <YouTube
+            videoId={videoId}
+            onEnd={onEnd}
+            opts={opts}
+            ref={playerRef}
+          />
+        </div>
+        <div className={styles.menu}>
+          <label>アコーディオン１</label>
+          <input type="checkbox" id="menu_bar01" className="accordion" />
+          <ul id="links01">
+            <li>
+              <a href="">Link01</a>
+            </li>
+            <li>
+              <a href="">Link02</a>
+            </li>
+            <li>
+              <a href="">Link03</a>
+            </li>
+            <li>
+              <a href="">Link04</a>
+            </li>
+          </ul>
+          <label>アコーディオン２</label>
+          <input type="checkbox" id="menu_bar02" className="accordion" />
+          <ul id="links02">
+            <li>
+              <a href="">Link01</a>
+            </li>
+            <li>
+              <a href="">Link02</a>
+            </li>
+            <li>
+              <a href="">Link03</a>
+            </li>
+            <li>
+              <a href="">Link04</a>
+            </li>
+          </ul>
+        </div>
+      </div>
       <StartEndForm
         setStart={setStart}
         setEnd={setEnd}
