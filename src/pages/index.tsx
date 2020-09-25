@@ -54,18 +54,18 @@ const IndexPage: NextPage = () => {
             opts={opts}
             ref={playerRef}
           />
+          <StartEndForm
+            setStart={setStart}
+            setEnd={setEnd}
+            startVideo={startVideo}
+            isLoop={isLoop}
+            setIsLoop={setIsLoop}
+          />
         </div>
         <div className={styles.playList}>
           <PlayList />
         </div>
       </div>
-      <StartEndForm
-        setStart={setStart}
-        setEnd={setEnd}
-        startVideo={startVideo}
-        isLoop={isLoop}
-        setIsLoop={setIsLoop}
-      />
     </>
   )
 }

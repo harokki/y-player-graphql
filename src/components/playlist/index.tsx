@@ -1,38 +1,29 @@
+import styles from './index.module.css'
+
 export const PlayList: React.FC = () => {
   return (
-    <div>
-      <label>アコーディオン１</label>
-      <input type="checkbox" id="menu_bar01" className="accordion" />
-      <ul id="links01">
-        <li>
-          <a href="">Link01</a>
-        </li>
-        <li>
-          <a href="">Link02</a>
-        </li>
-        <li>
-          <a href="">Link03</a>
-        </li>
-        <li>
-          <a href="">Link04</a>
-        </li>
-      </ul>
-      <label>アコーディオン２</label>
-      <input type="checkbox" id="menu_bar02" className="accordion" />
-      <ul id="links02">
-        <li>
-          <a href="">Link01</a>
-        </li>
-        <li>
-          <a href="">Link02</a>
-        </li>
-        <li>
-          <a href="">Link03</a>
-        </li>
-        <li>
-          <a href="">Link04</a>
-        </li>
-      </ul>
+    <div className={styles.img}>
+      <div>
+        <img
+          src="https://img.youtube.com/vi/TruaIGcjaEI/mqdefault.jpg"
+          width={168}
+        />
+        test
+      </div>
+      <div>
+        <img
+          src="https://img.youtube.com/vi/TruaIGcjaEI/mqdefault.jpg"
+          width={168}
+        />
+        test
+      </div>
+      <div>
+        <img
+          src="https://img.youtube.com/vi/TruaIGcjaEI/mqdefault.jpg"
+          width={168}
+        />
+        test
+      </div>
     </div>
   )
 }
