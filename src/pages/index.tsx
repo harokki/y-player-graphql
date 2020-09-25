@@ -4,6 +4,7 @@ import YouTube, { Options } from 'react-youtube'
 
 import { StartEndForm } from '@/components/form'
 import { YplayerHeader } from '@/components/header'
+import { PlayList } from '@/components/playlist'
 
 import styles from './index.module.css'
 
@@ -54,39 +55,8 @@ const IndexPage: NextPage = () => {
             ref={playerRef}
           />
         </div>
-        <div className={styles.menu}>
-          <label>アコーディオン１</label>
-          <input type="checkbox" id="menu_bar01" className="accordion" />
-          <ul id="links01">
-            <li>
-              <a href="">Link01</a>
-            </li>
-            <li>
-              <a href="">Link02</a>
-            </li>
-            <li>
-              <a href="">Link03</a>
-            </li>
-            <li>
-              <a href="">Link04</a>
-            </li>
-          </ul>
-          <label>アコーディオン２</label>
-          <input type="checkbox" id="menu_bar02" className="accordion" />
-          <ul id="links02">
-            <li>
-              <a href="">Link01</a>
-            </li>
-            <li>
-              <a href="">Link02</a>
-            </li>
-            <li>
-              <a href="">Link03</a>
-            </li>
-            <li>
-              <a href="">Link04</a>
-            </li>
-          </ul>
+        <div className={styles.playList}>
+          <PlayList />
         </div>
       </div>
       <StartEndForm
