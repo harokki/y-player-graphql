@@ -9,22 +9,26 @@ const IndexPage: NextPage = () => {
   const [start, setStart] = React.useState<number | undefined>(undefined)
   const [end, setEnd] = React.useState<number | undefined>(undefined)
   const playerRef = React.useRef<any | undefined>()
+
   const startVideo = () => {
     if (playerRef && playerRef.current) {
       playerRef.current.internalPlayer.playVideo()
     }
   }
+
   const onEnd = () => {
     if (playerRef && playerRef.current) {
       playerRef.current.internalPlayer.pauseVideo()
       playerRef.current.internalPlayer.seekTo(start)
     }
   }
+
   const opts: Options = {
     height: '390',
     width: '640',
     playerVars: { start, end },
   }
+
   return (
     <>
       <YplayerHeader />
