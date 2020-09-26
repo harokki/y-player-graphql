@@ -8,6 +8,7 @@ type Props = {
   startVideo: () => void
   isLoop: boolean
   setIsLoop: Dispatch<SetStateAction<boolean>>
+  addPlayList: () => void
 }
 
 export const StartEndForm: React.FC<Props> = ({
@@ -16,6 +17,7 @@ export const StartEndForm: React.FC<Props> = ({
   startVideo,
   isLoop,
   setIsLoop,
+  addPlayList,
 }) => {
   return (
     <form className={styles.form}>
@@ -40,6 +42,7 @@ export const StartEndForm: React.FC<Props> = ({
         <input type="checkbox" name="loop" onClick={() => setIsLoop(!isLoop)} />
       </label>
       <input type="button" value="Play!" onClick={() => startVideo()} />
+      <input type="button" value="Save!" onClick={() => addPlayList()} />
     </form>
   )
 }

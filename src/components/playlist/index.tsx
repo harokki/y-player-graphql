@@ -1,14 +1,7 @@
 import { Dispatch, SetStateAction } from 'react'
-import styles from './index.module.css'
 
-type PlayListItem = {
-  videoId: string
-  title: string
-  meta: string
-  start: number
-  end: number
-  loop: boolean
-}
+import { PlayListItem } from '@/pages/index'
+import styles from './index.module.css'
 
 type Props = {
   playList: PlayListItem[]

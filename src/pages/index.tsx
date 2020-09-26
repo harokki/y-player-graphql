@@ -8,7 +8,16 @@ import { PlayList } from '@/components/playlist'
 
 import styles from './index.module.css'
 
-const playList = [
+export type PlayListItem = {
+  videoId: string
+  title: string
+  meta: string
+  start: number | undefined
+  end: number | undefined
+  loop: boolean
+}
+
+const initialPlayList: PlayListItem[] = [
   {
     videoId: 'TruaIGcjaEI',
     title: 'タイトル1',
@@ -40,7 +49,22 @@ const IndexPage: NextPage = () => {
   const [end, setEnd] = useState<number | undefined>(undefined)
   const [videoId, setVideoId] = useState<string>('2g811Eo7K8U')
   const [isLoop, setIsLoop] = useState<boolean>(false)
+  const [playList, setPlayList] = useState<PlayListItem[]>(initialPlayList)
   const playerRef = useRef<any | undefined>()
+
+  const addPlayList = () => {
+    const copyList = Array.from(playList)
+    const newItem = {
+      videoId,
+      title: 'タイトル2',
+      meta: 'メタデータ',
+      start,
+      end,
+      loop: isLoop,
+    }
+    copyList.unshift(newItem)
+    setPlayList(copyList)
+  }
 
   const startVideo = () => {
     if (playerRef && playerRef.current) {
@@ -87,6 +111,7 @@ const IndexPage: NextPage = () => {
             startVideo={startVideo}
             isLoop={isLoop}
             setIsLoop={setIsLoop}
+            addPlayList={addPlayList}
           />
         </div>
         <div className={styles.playList}>
