@@ -9,9 +9,30 @@ import { PlayList } from '@/components/playlist'
 import styles from './index.module.css'
 
 const playList = [
-  { videoId: 'TruaIGcjaEI', title: 'タイトル1', meta: 'メタデータ' },
-  { videoId: 'TruaIGcjaEI', title: 'タイトル2', meta: 'メタデータ' },
-  { videoId: 'TruaIGcjaEI', title: 'タイトル3', meta: 'メタデータ' },
+  {
+    videoId: 'TruaIGcjaEI',
+    title: 'タイトル1',
+    meta: 'メタデータ',
+    start: 10,
+    end: 20,
+    loop: true,
+  },
+  {
+    videoId: 'TruaIGcjaEI',
+    title: 'タイトル2',
+    meta: 'メタデータ',
+    start: 20,
+    end: 30,
+    loop: true,
+  },
+  {
+    videoId: 'TruaIGcjaEI',
+    title: 'タイトル3',
+    meta: 'メタデータ',
+    start: 30,
+    end: 40,
+    loop: false,
+  },
 ]
 
 const IndexPage: NextPage = () => {
@@ -69,7 +90,13 @@ const IndexPage: NextPage = () => {
           />
         </div>
         <div className={styles.playList}>
-          <PlayList playList={playList} />
+          <PlayList
+            playList={playList}
+            setVideoId={setVideoId}
+            setStart={setStart}
+            setEnd={setEnd}
+            setIsLoop={setIsLoop}
+          />
         </div>
       </div>
     </>
