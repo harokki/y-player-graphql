@@ -3,6 +3,11 @@
   flex-direction: column;
 }
 
-.metaData span {
+.boxImg,
+.boxText {
+  display: inline-block;
+}
+
+.boxText span {
   display: block;
 }
