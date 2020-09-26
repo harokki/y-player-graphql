@@ -39,8 +39,8 @@ export const PlayList: React.FC<Props> = ({
 
   return (
     <div className={styles.img}>
-      {playList.map((item) => (
-        <div className={styles.box} onClick={() => startVideo(item)}>
+      {playList.map((item, i) => (
+        <div key={i} className={styles.box} onClick={() => startVideo(item)}>
           <div className={styles.boxImg}>{getImg(item.videoId)}</div>
           <div className={styles.boxText}>
             <span>{item.title}</span>
