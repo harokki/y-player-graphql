@@ -9,9 +9,9 @@ import { PlayList } from '@/components/playlist'
 import styles from './index.module.css'
 
 const playList = [
-  { videoId: 'TruaIGcjaEI', title: 'タイトル', meta: 'メタデータ' },
-  { videoId: 'TruaIGcjaEI', title: 'タイトル', meta: 'メタデータ' },
-  { videoId: 'TruaIGcjaEI', title: 'タイトル', meta: 'メタデータ' },
+  { videoId: 'TruaIGcjaEI', title: 'タイトル1', meta: 'メタデータ' },
+  { videoId: 'TruaIGcjaEI', title: 'タイトル2', meta: 'メタデータ' },
+  { videoId: 'TruaIGcjaEI', title: 'タイトル3', meta: 'メタデータ' },
 ]
 
 const IndexPage: NextPage = () => {

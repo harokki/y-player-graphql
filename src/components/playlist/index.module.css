@@ -3,6 +3,15 @@
   flex-direction: column;
 }
 
+.box {
+  padding-top: 10px;
+  cursor: pointer;
+}
+
+.box:hover {
+  background-color: #f5f5f5;
+}
+
 .boxImg,
 .boxText {
   display: inline-block;
