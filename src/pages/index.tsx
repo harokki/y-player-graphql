@@ -4,6 +4,36 @@ import YouTube, { Options } from 'react-youtube'
 
 import { StartEndForm } from '@/components/form'
 import { YplayerHeader } from '@/components/header'
+import { PlayList } from '@/components/playlist'
+
+import styles from './index.module.css'
+
+const playList = [
+  {
+    videoId: 'TruaIGcjaEI',
+    title: 'タイトル1',
+    meta: 'メタデータ',
+    start: 10,
+    end: 20,
+    loop: true,
+  },
+  {
+    videoId: 'TruaIGcjaEI',
+    title: 'タイトル2',
+    meta: 'メタデータ',
+    start: 20,
+    end: 30,
+    loop: true,
+  },
+  {
+    videoId: 'TruaIGcjaEI',
+    title: 'タイトル3',
+    meta: 'メタデータ',
+    start: 30,
+    end: 40,
+    loop: false,
+  },
+]
 
 const IndexPage: NextPage = () => {
   const [start, setStart] = useState<number | undefined>(undefined)
@@ -43,14 +73,32 @@ const IndexPage: NextPage = () => {
   return (
     <>
       <YplayerHeader setVideoId={setVideoId} />
-      <YouTube videoId={videoId} onEnd={onEnd} opts={opts} ref={playerRef} />
-      <StartEndForm
-        setStart={setStart}
-        setEnd={setEnd}
-        startVideo={startVideo}
-        isLoop={isLoop}
-        setIsLoop={setIsLoop}
-      />
+      <div className={styles.body}>
+        <div className={styles.youtube}>
+          <YouTube
+            videoId={videoId}
+            onEnd={onEnd}
+            opts={opts}
+            ref={playerRef}
+          />
+          <StartEndForm
+            setStart={setStart}
+            setEnd={setEnd}
+            startVideo={startVideo}
+            isLoop={isLoop}
+            setIsLoop={setIsLoop}
+          />
+        </div>
+        <div className={styles.playList}>
+          <PlayList
+            playList={playList}
+            setVideoId={setVideoId}
+            setStart={setStart}
+            setEnd={setEnd}
+            setIsLoop={setIsLoop}
+          />
+        </div>
+      </div>
     </>
   )
 }

@@ -1,0 +1,17 @@
+.body {
+  display: flex;
+  align-items: center;
+  height: 500px;
+}
+
+.youtube {
+  display: flex;
+  align-items: center;
+  margin: 16px auto 16px 48px;
+}
+
+.playList {
+  margin: 16px 48px 16px auto;
+  display: flex;
+  align-items: center;
+}
