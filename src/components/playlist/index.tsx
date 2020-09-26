@@ -1,44 +1,26 @@
 import styles from './index.module.css'
 
-export const PlayList: React.FC = () => {
+type Props = {
+  playList: { videoId: string; title: string; meta: string }[]
+}
+
+export const PlayList: React.FC<Props> = ({ playList }) => {
+  const getImg = (videoId: string) => {
+    const url = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`
+    return <img src={url} width={168} />
+  }
+
   return (
     <div className={styles.img}>
-      <div>
-        <div className={styles.boxImg}>
-          <img
-            src="https://img.youtube.com/vi/TruaIGcjaEI/mqdefault.jpg"
-            width={168}
-          />
+      {playList.map((item) => (
+        <div>
+          <div className={styles.boxImg}>{getImg(item.videoId)}</div>
+          <div className={styles.boxText}>
+            <span>{item.title}</span>
+            <span>{item.meta}</span>
+          </div>
         </div>
-        <div className={styles.boxText}>
-          <span>タイトル</span>
-          <span>メタデータ</span>
-        </div>
-      </div>
-      <div>
-        <div className={styles.boxImg}>
-          <img
-            src="https://img.youtube.com/vi/TruaIGcjaEI/mqdefault.jpg"
-            width={168}
-          />
-        </div>
-        <div className={styles.boxText}>
-          <span>タイトル</span>
-          <span>メタデータ</span>
-        </div>
-      </div>
-      <div>
-        <div className={styles.boxImg}>
-          <img
-            src="https://img.youtube.com/vi/TruaIGcjaEI/mqdefault.jpg"
-            width={168}
-          />
-        </div>
-        <div className={styles.boxText}>
-          <span>タイトル</span>
-          <span>メタデータ</span>
-        </div>
-      </div>
+      ))}
     </div>
   )
 }

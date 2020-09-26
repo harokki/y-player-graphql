@@ -8,6 +8,12 @@ import { PlayList } from '@/components/playlist'
 
 import styles from './index.module.css'
 
+const playList = [
+  { videoId: 'TruaIGcjaEI', title: 'タイトル', meta: 'メタデータ' },
+  { videoId: 'TruaIGcjaEI', title: 'タイトル', meta: 'メタデータ' },
+  { videoId: 'TruaIGcjaEI', title: 'タイトル', meta: 'メタデータ' },
+]
+
 const IndexPage: NextPage = () => {
   const [start, setStart] = useState<number | undefined>(undefined)
   const [end, setEnd] = useState<number | undefined>(undefined)
@@ -63,7 +69,7 @@ const IndexPage: NextPage = () => {
           />
         </div>
         <div className={styles.playList}>
-          <PlayList />
+          <PlayList playList={playList} />
         </div>
       </div>
     </>
