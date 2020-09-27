@@ -1,14 +1,7 @@
 import { Dispatch, SetStateAction } from 'react'
-import styles from './index.module.css'
 
-type PlayListItem = {
-  videoId: string
-  title: string
-  meta: string
-  start: number
-  end: number
-  loop: boolean
-}
+import { PlayListItem } from '@/pages/index'
+import styles from './index.module.css'
 
 type Props = {
   playList: PlayListItem[]
@@ -39,8 +32,9 @@ export const PlayList: React.FC<Props> = ({
 
   return (
     <div className={styles.img}>
-      {playList.map((item) => (
-        <div className={styles.box} onClick={() => startVideo(item)}>
+      <span>プレイリスト</span>
+      {playList.map((item, i) => (
+        <div key={i} className={styles.box} onClick={() => startVideo(item)}>
           <div className={styles.boxImg}>{getImg(item.videoId)}</div>
           <div className={styles.boxText}>
             <span>{item.title}</span>
