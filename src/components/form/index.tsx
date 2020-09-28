@@ -77,7 +77,7 @@ export const StartEndForm: React.FC<Props> = ({
         <input
           type="checkbox"
           name="loop"
-          checked={isLoop}
+          defaultChecked={isLoop}
           onClick={() => setIsLoop(!isLoop)}
         />
       </label>

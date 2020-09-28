@@ -1,10 +1,10 @@
 import { Dispatch, SetStateAction } from 'react'
 
-import { PlayListItem } from '@/pages/index'
+import { PlayListItem, Item } from '@/pages/index'
 import styles from './index.module.css'
 
 type Props = {
-  playList: PlayListItem[]
+  playList: PlayListItem
   setVideoId: Dispatch<SetStateAction<string>>
   setStart: Dispatch<SetStateAction<number | undefined>>
   setEnd: Dispatch<SetStateAction<number | undefined>>
@@ -23,22 +23,27 @@ export const PlayList: React.FC<Props> = ({
     return <img src={url} width={168} />
   }
 
-  const startVideo = (item: PlayListItem) => {
-    setVideoId(item.videoId)
-    setStart(item.start)
-    setEnd(item.end)
-    setIsLoop(item.loop)
+  const startVideo = (key: string, value: Item[]) => {
+    setVideoId(key)
+    setStart(value[0].start)
+    setEnd(value[0].end)
+    setIsLoop(value[0].loop)
   }
+
+  console.log(playList)
 
   return (
     <div className={styles.img}>
       <span>プレイリスト</span>
-      {playList.map((item, i) => (
-        <div key={i} className={styles.box} onClick={() => startVideo(item)}>
-          <div className={styles.boxImg}>{getImg(item.videoId)}</div>
+      {Object.entries(playList).map(([key, value], i) => (
+        <div
+          key={i}
+          className={styles.box}
+          onClick={() => startVideo(key, value)}
+        >
+          <div className={styles.boxImg}>{getImg(key)}</div>
           <div className={styles.boxText}>
-            <span>{item.title}</span>
-            <span>{item.meta}</span>
+            <span>test</span>
           </div>
         </div>
       ))}

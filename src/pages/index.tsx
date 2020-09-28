@@ -8,8 +8,7 @@ import { PlayList } from '@/components/playlist'
 
 import styles from './index.module.css'
 
-export type PlayListItem = {
-  videoId: string
+export type Item = {
   title: string
   meta: string
   start: number | undefined
@@ -17,53 +16,52 @@ export type PlayListItem = {
   loop: boolean
 }
 
-const initialPlayList: PlayListItem[] = [
-  {
-    videoId: 'TruaIGcjaEI',
-    title: 'タイトル1',
-    meta: 'メタデータ',
-    start: 10,
-    end: 20,
-    loop: true,
-  },
-  {
-    videoId: 'TruaIGcjaEI',
-    title: 'タイトル2',
-    meta: 'メタデータ',
-    start: 20,
-    end: 30,
-    loop: true,
-  },
-  {
-    videoId: 'TruaIGcjaEI',
-    title: 'タイトル3',
-    meta: 'メタデータ',
-    start: 30,
-    end: 40,
-    loop: false,
-  },
-]
+export type PlayListItem = {
+  [videoId: string]: Item[]
+}
+
+const initialPlayList: PlayListItem = {
+  TruaIGcjaEI: [
+    {
+      title: 'タイトル1',
+      meta: 'メタデータ',
+      start: 10,
+      end: 20,
+      loop: true,
+    },
+    {
+      title: 'タイトル2',
+      meta: 'メタデータ',
+      start: 20,
+      end: 30,
+      loop: true,
+    },
+  ],
+}
 
 const IndexPage: NextPage = () => {
   const [start, setStart] = useState<number | undefined>(undefined)
   const [end, setEnd] = useState<number | undefined>(undefined)
   const [videoId, setVideoId] = useState<string>('2g811Eo7K8U')
   const [isLoop, setIsLoop] = useState<boolean>(false)
-  const [playList, setPlayList] = useState<PlayListItem[]>(initialPlayList)
+  const [playList, setPlayList] = useState<PlayListItem>(initialPlayList)
   const playerRef = useRef<any | undefined>()
 
   const addPlayList = () => {
-    const copyList = Array.from(playList)
+    const copyObject = Object.assign({}, playList)
     const newItem = {
-      videoId,
       title: 'タイトル2',
       meta: 'メタデータ',
       start,
       end,
       loop: isLoop,
     }
-    copyList.unshift(newItem)
-    setPlayList(copyList)
+    if (!(videoId in copyObject)) {
+      copyObject[videoId] = [newItem]
+    } else {
+      copyObject[videoId].unshift(newItem)
+    }
+    setPlayList(copyObject)
   }
 
   const startVideo = () => {
