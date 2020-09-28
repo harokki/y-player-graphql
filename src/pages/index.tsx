@@ -140,7 +140,7 @@ const IndexPage: NextPage = () => {
         />
       </div>
       <div className={styles.settingForm}>
-        {getItems() && getItems().map((item) => <SettingForm item={item} />)}
+        <SettingForm items={getItems()} />
       </div>
     </>
   )
