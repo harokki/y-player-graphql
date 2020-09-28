@@ -74,7 +74,12 @@ export const StartEndForm: React.FC<Props> = ({
       </label>
       <label>
         <span>繰り返し</span>
-        <input type="checkbox" name="loop" onClick={() => setIsLoop(!isLoop)} />
+        <input
+          type="checkbox"
+          name="loop"
+          checked={isLoop}
+          onClick={() => setIsLoop(!isLoop)}
+        />
       </label>
       <label>
         <input type="button" value="Play!" onClick={() => startVideo()} />
