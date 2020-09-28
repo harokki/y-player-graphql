@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { useState } from 'react'
 
 import { Item } from '@/pages/index'
 import styles from './index.module.css'
@@ -7,26 +7,8 @@ type Props = {
   items: Item[]
 }
 
-interface HTMLElementEvent<T extends HTMLElement> extends ChangeEvent {
-  target: T
-}
-
 export const SettingForm: React.FC<Props> = ({ items }) => {
   const [disabled, setDisabled] = useState<boolean>(true)
-  const [values, setValues] = useState({
-    start: undefined,
-    end: undefined,
-    loop: false,
-  })
-
-  const handleInputChange = (e: HTMLElementEvent<HTMLInputElement>) => {
-    const target = e.target
-    if (target) {
-      const value = target.type === 'checkbox' ? !target.checked : target.value
-      const name = target.name
-      setValues({ ...values, [name]: value })
-    }
-  }
 
   return (
     <>
@@ -43,7 +25,6 @@ export const SettingForm: React.FC<Props> = ({ items }) => {
                   type="text"
                   name="start"
                   defaultValue={item.start}
-                  onChange={(e) => handleInputChange(e)}
                   disabled={disabled}
                 />
                 <input type="button" value="現在時間取得" disabled={disabled} />
@@ -54,7 +35,6 @@ export const SettingForm: React.FC<Props> = ({ items }) => {
                   type="text"
                   name="end"
                   defaultValue={item.end}
-                  onChange={(e) => handleInputChange(e)}
                   disabled={disabled}
                 />
                 <input type="button" value="現在時間取得" disabled={disabled} />
@@ -64,8 +44,7 @@ export const SettingForm: React.FC<Props> = ({ items }) => {
                 <input
                   type="checkbox"
                   name="loop"
-                  defaultChecked={item.loop}
-                  onChange={(e) => handleInputChange(e)}
+                  checked={item.loop}
                   disabled={disabled}
                 />
               </label>
