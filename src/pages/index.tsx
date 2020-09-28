@@ -3,6 +3,7 @@ import { NextPage } from 'next'
 import YouTube, { Options } from 'react-youtube'
 
 import { StartEndForm } from '@/components/form'
+import { SettingForm } from '@/components/form/setting-form'
 import { YplayerHeader } from '@/components/header'
 import { PlayList } from '@/components/playlist'
 
@@ -64,6 +65,10 @@ const IndexPage: NextPage = () => {
     setPlayList(copyObject)
   }
 
+  const getItems = () => {
+    return playList[videoId]
+  }
+
   const startVideo = () => {
     if (playerRef && playerRef.current) {
       playerRef.current.internalPlayer.playVideo()
@@ -121,17 +126,22 @@ const IndexPage: NextPage = () => {
           />
         </div>
       </div>
-      <StartEndForm
-        start={start}
-        setStart={setStart}
-        end={end}
-        setEnd={setEnd}
-        startVideo={startVideo}
-        isLoop={isLoop}
-        setIsLoop={setIsLoop}
-        addPlayList={addPlayList}
-        getNowTime={getNowTime}
-      />
+      <div className={styles.mainForm}>
+        <StartEndForm
+          start={start}
+          setStart={setStart}
+          end={end}
+          setEnd={setEnd}
+          startVideo={startVideo}
+          isLoop={isLoop}
+          setIsLoop={setIsLoop}
+          addPlayList={addPlayList}
+          getNowTime={getNowTime}
+        />
+      </div>
+      <div className={styles.settingForm}>
+        <SettingForm items={getItems()} />
+      </div>
     </>
   )
 }

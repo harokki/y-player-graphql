@@ -23,24 +23,18 @@ export const PlayList: React.FC<Props> = ({
     return <img src={url} width={168} />
   }
 
-  const startVideo = (key: string, value: Item[]) => {
+  const setVideo = (key: string) => {
     setVideoId(key)
-    setStart(value[0].start)
-    setEnd(value[0].end)
-    setIsLoop(value[0].loop)
+    setStart(undefined)
+    setEnd(undefined)
+    setIsLoop(false)
   }
-
-  console.log(playList)
 
   return (
     <div className={styles.img}>
       <span>プレイリスト</span>
       {Object.entries(playList).map(([key, value], i) => (
-        <div
-          key={i}
-          className={styles.box}
-          onClick={() => startVideo(key, value)}
-        >
+        <div key={i} className={styles.box} onClick={() => setVideo(key)}>
           <div className={styles.boxImg}>{getImg(key)}</div>
           <div className={styles.boxText}>
             <span>test</span>
