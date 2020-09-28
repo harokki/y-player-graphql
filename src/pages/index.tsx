@@ -82,6 +82,13 @@ const IndexPage: NextPage = () => {
     }
   }
 
+  const getNowTime = async (): Promise<number | undefined> => {
+    if (playerRef && playerRef.current) {
+      const nowTime = await playerRef.current.internalPlayer.getCurrentTime()
+      return nowTime
+    }
+  }
+
   useEffect(() => {
     if (videoId === '') {
       setVideoId('2g811Eo7K8U')
@@ -105,14 +112,6 @@ const IndexPage: NextPage = () => {
             opts={opts}
             ref={playerRef}
           />
-          <StartEndForm
-            setStart={setStart}
-            setEnd={setEnd}
-            startVideo={startVideo}
-            isLoop={isLoop}
-            setIsLoop={setIsLoop}
-            addPlayList={addPlayList}
-          />
         </div>
         <div className={styles.playList}>
           <PlayList
@@ -124,6 +123,17 @@ const IndexPage: NextPage = () => {
           />
         </div>
       </div>
+      <StartEndForm
+        start={start}
+        setStart={setStart}
+        end={end}
+        setEnd={setEnd}
+        startVideo={startVideo}
+        isLoop={isLoop}
+        setIsLoop={setIsLoop}
+        addPlayList={addPlayList}
+        getNowTime={getNowTime}
+      />
     </>
   )
 }
