@@ -36,9 +36,9 @@ export const MainForm: React.FC<Props> = ({
   const setNowTime = async (type: string) => {
     const nowTime = await getNowTime()
     if (type === 'start') {
-      setStart(nowTime)
+      setStart(nowTime ? Math.floor(nowTime) : undefined)
     } else {
-      setEnd(nowTime)
+      setEnd(nowTime ? Math.floor(nowTime) : undefined)
     }
   }
 
@@ -54,11 +54,7 @@ export const MainForm: React.FC<Props> = ({
       </label>
       <label>
         <span>開始</span>
-        <input
-          type="text"
-          name="start"
-          onChange={(e) => setStart(parseInt(e.target.value))}
-        />
+        <input type="text" name="start" defaultValue={start} disabled={true} />
         <input
           type="button"
           value="現在時間取得"
@@ -67,11 +63,7 @@ export const MainForm: React.FC<Props> = ({
       </label>
       <label>
         <span>終了</span>
-        <input
-          type="text"
-          name="end"
-          onChange={(e) => setEnd(parseInt(e.target.value))}
-        />
+        <input type="text" name="end" disabled={true} defaultValue={end} />
         <input
           type="button"
           value="現在時間取得"
