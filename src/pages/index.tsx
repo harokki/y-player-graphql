@@ -163,7 +163,11 @@ const IndexPage: NextPage = () => {
         />
       </div>
       <div className={styles.settingForm}>
-        <Setting items={items} />
+        <Setting
+          items={items}
+          startVideo={startVideo}
+          setPlayerVars={setPlayerVars}
+        />
       </div>
     </>
   )
