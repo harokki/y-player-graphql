@@ -15,7 +15,7 @@ type Props = {
   setYoutubeSetting: Dispatch<SetStateAction<YoutubeSetting>>
 }
 
-export const StartEndForm: React.FC<Props> = ({
+export const MainForm: React.FC<Props> = ({
   startVideo,
   addPlayList,
   getNowTime,

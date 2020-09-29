@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import { NextPage } from 'next'
 import YouTube, { Options } from 'react-youtube'
 
-import { StartEndForm } from '@/components/form'
+import { MainForm } from '@/components/form'
 import { Setting } from '@/components/setting'
 import { YplayerHeader } from '@/components/header'
 import { PlayList } from '@/components/playlist'
@@ -150,7 +150,7 @@ const IndexPage: NextPage = () => {
         </div>
       </div>
       <div className={styles.mainForm}>
-        <StartEndForm
+        <MainForm
           startVideo={startVideo}
           addPlayList={addPlayList}
           getNowTime={getNowTime}
