@@ -8,52 +8,28 @@ type Props = {
 }
 
 export const SettingForm: React.FC<Props> = ({ items }) => {
-  const [disabled, setDisabled] = useState<boolean>(true)
-
   return (
     <>
       {items
         ? items.map((item, i) => (
-            <form key={i} className={styles.form}>
+            <div key={i} className={styles.setting}>
               <label>
                 <span>説明</span>
-                <input type="text" name="description" disabled={disabled} />
+                <input type="text" value={item.title} />
               </label>
               <label>
                 <span>開始</span>
-                <input
-                  type="text"
-                  name="start"
-                  defaultValue={item.start}
-                  disabled={disabled}
-                />
-                <input type="button" value="現在時間取得" disabled={disabled} />
+                <input type="number" value={item.start} />
               </label>
               <label>
                 <span>終了</span>
-                <input
-                  type="text"
-                  name="end"
-                  defaultValue={item.end}
-                  disabled={disabled}
-                />
-                <input type="button" value="現在時間取得" disabled={disabled} />
+                <input type="number" value={item.end} />
               </label>
               <label>
                 <span>繰り返し</span>
-                <input
-                  type="checkbox"
-                  name="loop"
-                  checked={item.loop}
-                  disabled={disabled}
-                />
+                <input type="checkbox" checked={item.loop} />
               </label>
-              <input
-                type="button"
-                value="Edit!"
-                onClick={() => setDisabled(!disabled)}
-              />
-            </form>
+            </div>
           ))
         : null}
     </>

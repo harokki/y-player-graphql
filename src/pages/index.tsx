@@ -46,6 +46,9 @@ const IndexPage: NextPage = () => {
   const [videoId, setVideoId] = useState<string>('2g811Eo7K8U')
   const [isLoop, setIsLoop] = useState<boolean>(false)
   const [playList, setPlayList] = useState<PlayListItem>(initialPlayList)
+  const [items, setItems] = useState<Item[]>(
+    playList[videoId] ? playList[videoId] : [],
+  )
   const playerRef = useRef<any | undefined>()
 
   const addPlayList = () => {
@@ -63,10 +66,6 @@ const IndexPage: NextPage = () => {
       copyObject[videoId].unshift(newItem)
     }
     setPlayList(copyObject)
-  }
-
-  const getItems = () => {
-    return playList[videoId]
   }
 
   const startVideo = () => {
@@ -97,6 +96,10 @@ const IndexPage: NextPage = () => {
       setVideoId('2g811Eo7K8U')
     }
   }, [videoId])
+
+  useEffect(() => {
+    setItems(playList[videoId])
+  }, [videoId, playList])
 
   const opts: Options = {
     height: '390',
@@ -140,7 +143,7 @@ const IndexPage: NextPage = () => {
         />
       </div>
       <div className={styles.settingForm}>
-        <SettingForm items={getItems()} />
+        <SettingForm items={items} />
       </div>
     </>
   )
