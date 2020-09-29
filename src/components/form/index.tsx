@@ -1,14 +1,10 @@
 import React, { useState, useEffect, Dispatch, SetStateAction } from 'react'
 
-import { PlayerVars } from '@/pages/index'
+import { YoutubeSetting } from '@/pages/index'
 import styles from './index.module.css'
 
 type Props = {
-  startVideo: (
-    start: number | undefined,
-    end: number | undefined,
-    isLoop: boolean,
-  ) => void
+  startVideo: () => void
   addPlayList: (
     start: number | undefined,
     end: number | undefined,
@@ -16,14 +12,14 @@ type Props = {
     isLoop: boolean,
   ) => void
   getNowTime: () => Promise<number | undefined>
-  setPlayerVars: Dispatch<SetStateAction<PlayerVars>>
+  setYoutubeSetting: Dispatch<SetStateAction<YoutubeSetting>>
 }
 
-export const StartEndForm: React.FC<Props> = ({
+export const MainForm: React.FC<Props> = ({
   startVideo,
   addPlayList,
   getNowTime,
-  setPlayerVars,
+  setYoutubeSetting,
 }) => {
   const [start, setStart] = useState<number | undefined>(undefined)
   const [end, setEnd] = useState<number | undefined>(undefined)
@@ -31,15 +27,18 @@ export const StartEndForm: React.FC<Props> = ({
   const [isLoop, setIsLoop] = useState<boolean>(false)
 
   useEffect(() => {
-    setPlayerVars({ start, end })
-  }, [start, end, setPlayerVars])
+    setYoutubeSetting({
+      onEndSetting: { start, end, isLoop },
+      playerVars: { start, end },
+    })
+  }, [start, end, isLoop, setYoutubeSetting])
 
   const setNowTime = async (type: string) => {
     const nowTime = await getNowTime()
     if (type === 'start') {
-      setStart(nowTime)
+      setStart(nowTime ? Math.floor(nowTime) : undefined)
     } else {
-      setEnd(nowTime)
+      setEnd(nowTime ? Math.floor(nowTime) : undefined)
     }
   }
 
@@ -55,11 +54,7 @@ export const StartEndForm: React.FC<Props> = ({
       </label>
       <label>
         <span>開始</span>
-        <input
-          type="text"
-          name="start"
-          onChange={(e) => setStart(parseInt(e.target.value))}
-        />
+        <input type="text" name="start" defaultValue={start} disabled={true} />
         <input
           type="button"
           value="現在時間取得"
@@ -68,11 +63,7 @@ export const StartEndForm: React.FC<Props> = ({
       </label>
       <label>
         <span>終了</span>
-        <input
-          type="text"
-          name="end"
-          onChange={(e) => setEnd(parseInt(e.target.value))}
-        />
+        <input type="text" name="end" disabled={true} defaultValue={end} />
         <input
           type="button"
           value="現在時間取得"
@@ -84,11 +75,7 @@ export const StartEndForm: React.FC<Props> = ({
         <input type="checkbox" name="loop" onClick={() => setIsLoop(!isLoop)} />
       </label>
       <label>
-        <input
-          type="button"
-          value="Play!"
-          onClick={() => startVideo(start, end, isLoop)}
-        />
+        <input type="button" value="Play!" onClick={() => startVideo()} />
       </label>
       <label>
         <input

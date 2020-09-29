@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import { NextPage } from 'next'
 import YouTube, { Options } from 'react-youtube'
 
-import { StartEndForm } from '@/components/form'
+import { MainForm } from '@/components/form'
 import { Setting } from '@/components/setting'
 import { YplayerHeader } from '@/components/header'
 import { PlayList } from '@/components/playlist'
@@ -18,6 +18,11 @@ export type Item = {
 
 export type PlayListItem = {
   [videoId: string]: Item[]
+}
+
+export type YoutubeSetting = {
+  onEndSetting: PlayerSetting
+  playerVars: PlayerVars
 }
 
 export type PlayerSetting = {
@@ -62,14 +67,9 @@ const IndexPage: NextPage = () => {
   const [items, setItems] = useState<Item[]>(
     playList[videoId] ? playList[videoId] : [],
   )
-  const [playerSetting, setPlayerSetting] = useState<PlayerSetting>({
-    start: undefined,
-    end: undefined,
-    isLoop: false,
-  })
-  const [playerVars, setPlayerVars] = useState<PlayerVars>({
-    start: undefined,
-    end: undefined,
+  const [youtubeSetting, setYoutubeSetting] = useState<YoutubeSetting>({
+    onEndSetting: { start: undefined, end: undefined, isLoop: false },
+    playerVars: { start: undefined, end: undefined },
   })
   const playerRef = useRef<any | undefined>()
 
@@ -94,12 +94,7 @@ const IndexPage: NextPage = () => {
     setPlayList(copyObject)
   }
 
-  const startVideo = (
-    start: number | undefined,
-    end: number | undefined,
-    isLoop: boolean,
-  ) => {
-    setPlayerSetting({ start, end, isLoop })
+  const startVideo = () => {
     if (playerRef && playerRef.current) {
       playerRef.current.internalPlayer.playVideo()
     }
@@ -108,8 +103,8 @@ const IndexPage: NextPage = () => {
   const onEnd = () => {
     if (playerRef && playerRef.current) {
       playerRef.current.internalPlayer.pauseVideo()
-      playerRef.current.internalPlayer.seekTo(playerSetting.start)
-      if (playerSetting.isLoop) {
+      playerRef.current.internalPlayer.seekTo(youtubeSetting.onEndSetting.start)
+      if (youtubeSetting.onEndSetting.isLoop) {
         playerRef.current.internalPlayer.playVideo()
       }
     }
@@ -135,7 +130,7 @@ const IndexPage: NextPage = () => {
   const opts: Options = {
     height: '390',
     width: '640',
-    playerVars: playerVars,
+    playerVars: youtubeSetting.playerVars,
   }
 
   return (
@@ -155,18 +150,18 @@ const IndexPage: NextPage = () => {
         </div>
       </div>
       <div className={styles.mainForm}>
-        <StartEndForm
+        <MainForm
           startVideo={startVideo}
           addPlayList={addPlayList}
           getNowTime={getNowTime}
-          setPlayerVars={setPlayerVars}
+          setYoutubeSetting={setYoutubeSetting}
         />
       </div>
       <div className={styles.settingForm}>
         <Setting
           items={items}
           startVideo={startVideo}
-          setPlayerVars={setPlayerVars}
+          setYoutubeSetting={setYoutubeSetting}
         />
       </div>
     </>
