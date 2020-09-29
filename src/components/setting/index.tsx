@@ -2,6 +2,8 @@ import React, { SetStateAction, Dispatch } from 'react'
 
 import { Item, PlayerVars } from '@/pages/index'
 
+import styles from './index.module.css'
+
 type Props = {
   items: Item[]
   startVideo: (
@@ -18,7 +20,7 @@ export const Setting: React.FC<Props> = ({
   setPlayerVars,
 }) => {
   return (
-    <>
+    <div className={styles.setting}>
       <table>
         <thead>
           <tr>
@@ -26,12 +28,13 @@ export const Setting: React.FC<Props> = ({
             <th>開始</th>
             <th>終了</th>
             <th>繰り返し</th>
+            <th></th>
           </tr>
         </thead>
-        {items
-          ? items.map((item, i) => (
-              <tbody key={i}>
-                <tr>
+        <tbody>
+          {items
+            ? items.map((item, i) => (
+                <tr key={i}>
                   <td>{item.description}</td>
                   <td>{item.start}</td>
                   <td>{item.end}</td>
@@ -50,10 +53,10 @@ export const Setting: React.FC<Props> = ({
                     </button>
                   </td>
                 </tr>
-              </tbody>
-            ))
-          : null}
+              ))
+            : null}
+        </tbody>
       </table>
-    </>
+    </div>
   )
 }

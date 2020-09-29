@@ -1,7 +1,7 @@
 .body {
   display: flex;
   align-items: center;
-  height: 500px;
+  height: 420px;
 }
 
 .youtube {
@@ -13,7 +13,8 @@
 .playList {
   margin: 16px 48px 16px auto;
   display: flex;
-  height: 500px;
+  align-items: flex-start;
+  height: 100%;
   overflow: auto;
   overflow-y: scroll;
   overflow-x: auto;
