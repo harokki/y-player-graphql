@@ -3,15 +3,14 @@ import { NextPage } from 'next'
 import YouTube, { Options } from 'react-youtube'
 
 import { StartEndForm } from '@/components/form'
-import { SettingForm } from '@/components/form/setting-form'
+import { Setting } from '@/components/setting'
 import { YplayerHeader } from '@/components/header'
 import { PlayList } from '@/components/playlist'
 
 import styles from './index.module.css'
 
 export type Item = {
-  title: string
-  meta: string
+  description: string | undefined
   start: number | undefined
   end: number | undefined
   loop: boolean
@@ -21,41 +20,68 @@ export type PlayListItem = {
   [videoId: string]: Item[]
 }
 
+export type PlayerSetting = {
+  start: number | undefined
+  end: number | undefined
+  isLoop: boolean
+}
+
+export type PlayerVars = {
+  start: number | undefined
+  end: number | undefined
+}
+
 const initialPlayList: PlayListItem = {
   TruaIGcjaEI: [
     {
-      title: 'タイトル1',
-      meta: 'メタデータ',
+      description: '説明1',
       start: 10,
       end: 20,
       loop: true,
     },
     {
-      title: 'タイトル2',
-      meta: 'メタデータ',
+      description: '説明2',
       start: 20,
       end: 30,
+      loop: true,
+    },
+  ],
+  '2g811Eo7K8U': [
+    {
+      description: '説明1',
+      start: 10,
+      end: 20,
       loop: true,
     },
   ],
 }
 
 const IndexPage: NextPage = () => {
-  const [start, setStart] = useState<number | undefined>(undefined)
-  const [end, setEnd] = useState<number | undefined>(undefined)
   const [videoId, setVideoId] = useState<string>('2g811Eo7K8U')
-  const [isLoop, setIsLoop] = useState<boolean>(false)
   const [playList, setPlayList] = useState<PlayListItem>(initialPlayList)
   const [items, setItems] = useState<Item[]>(
     playList[videoId] ? playList[videoId] : [],
   )
+  const [playerSetting, setPlayerSetting] = useState<PlayerSetting>({
+    start: undefined,
+    end: undefined,
+    isLoop: false,
+  })
+  const [playerVars, setPlayerVars] = useState<PlayerVars>({
+    start: undefined,
+    end: undefined,
+  })
   const playerRef = useRef<any | undefined>()
 
-  const addPlayList = () => {
+  const addPlayList = (
+    start: number | undefined,
+    end: number | undefined,
+    description: string | undefined,
+    isLoop: boolean,
+  ) => {
     const copyObject = Object.assign({}, playList)
     const newItem = {
-      title: 'タイトル2',
-      meta: 'メタデータ',
+      description,
       start,
       end,
       loop: isLoop,
@@ -68,7 +94,12 @@ const IndexPage: NextPage = () => {
     setPlayList(copyObject)
   }
 
-  const startVideo = () => {
+  const startVideo = (
+    start: number | undefined,
+    end: number | undefined,
+    isLoop: boolean,
+  ) => {
+    setPlayerSetting({ start, end, isLoop })
     if (playerRef && playerRef.current) {
       playerRef.current.internalPlayer.playVideo()
     }
@@ -77,8 +108,8 @@ const IndexPage: NextPage = () => {
   const onEnd = () => {
     if (playerRef && playerRef.current) {
       playerRef.current.internalPlayer.pauseVideo()
-      playerRef.current.internalPlayer.seekTo(start)
-      if (isLoop) {
+      playerRef.current.internalPlayer.seekTo(playerSetting.start)
+      if (playerSetting.isLoop) {
         playerRef.current.internalPlayer.playVideo()
       }
     }
@@ -104,7 +135,7 @@ const IndexPage: NextPage = () => {
   const opts: Options = {
     height: '390',
     width: '640',
-    playerVars: { start, end },
+    playerVars: playerVars,
   }
 
   return (
@@ -120,30 +151,19 @@ const IndexPage: NextPage = () => {
           />
         </div>
         <div className={styles.playList}>
-          <PlayList
-            playList={playList}
-            setVideoId={setVideoId}
-            setStart={setStart}
-            setEnd={setEnd}
-            setIsLoop={setIsLoop}
-          />
+          <PlayList playList={playList} setVideoId={setVideoId} />
         </div>
       </div>
       <div className={styles.mainForm}>
         <StartEndForm
-          start={start}
-          setStart={setStart}
-          end={end}
-          setEnd={setEnd}
           startVideo={startVideo}
-          isLoop={isLoop}
-          setIsLoop={setIsLoop}
           addPlayList={addPlayList}
           getNowTime={getNowTime}
+          setPlayerVars={setPlayerVars}
         />
       </div>
       <div className={styles.settingForm}>
-        <SettingForm items={items} />
+        <Setting items={items} />
       </div>
     </>
   )
