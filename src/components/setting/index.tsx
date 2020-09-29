@@ -1,23 +1,19 @@
 import React, { SetStateAction, Dispatch } from 'react'
 
-import { Item, PlayerVars } from '@/pages/index'
+import { Item, YoutubeSetting } from '@/pages/index'
 
 import styles from './index.module.css'
 
 type Props = {
   items: Item[]
-  startVideo: (
-    start: number | undefined,
-    end: number | undefined,
-    isLoop: boolean,
-  ) => void
-  setPlayerVars: Dispatch<SetStateAction<PlayerVars>>
+  startVideo: () => void
+  setYoutubeSetting: Dispatch<SetStateAction<YoutubeSetting>>
 }
 
 export const Setting: React.FC<Props> = ({
   items,
   startVideo,
-  setPlayerVars,
+  setYoutubeSetting,
 }) => {
   return (
     <div className={styles.setting}>
@@ -42,11 +38,15 @@ export const Setting: React.FC<Props> = ({
                   <td>
                     <button
                       onClick={async () => {
-                        await setPlayerVars({
-                          start: item.start,
-                          end: item.end,
+                        await setYoutubeSetting({
+                          onEndSetting: {
+                            start: item.start,
+                            end: item.end,
+                            isLoop: item.loop,
+                          },
+                          playerVars: { start: item.start, end: item.end },
                         })
-                        startVideo(item.start, item.end, item.loop)
+                        startVideo()
                       }}
                     >
                       Play!
