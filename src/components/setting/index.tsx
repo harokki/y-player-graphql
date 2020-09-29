@@ -25,7 +25,7 @@ export const Setting: React.FC<Props> = ({ items }) => {
                   <td>{item.description}</td>
                   <td>{item.start}</td>
                   <td>{item.end}</td>
-                  <td>{item.loop}</td>
+                  <td>{item.loop ? 'yes' : 'no'}</td>
                 </tr>
               </tbody>
             ))
