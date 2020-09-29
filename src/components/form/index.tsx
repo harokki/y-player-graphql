@@ -1,30 +1,39 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import React, { useState, useEffect, Dispatch, SetStateAction } from 'react'
 
+import { PlayerVars } from '@/pages/index'
 import styles from './index.module.css'
 
 type Props = {
-  start: number | undefined
-  setStart: Dispatch<SetStateAction<number | undefined>>
-  end: number | undefined
-  setEnd: Dispatch<SetStateAction<number | undefined>>
-  startVideo: () => void
-  isLoop: boolean
-  setIsLoop: Dispatch<SetStateAction<boolean>>
-  addPlayList: () => void
+  startVideo: (
+    start: number | undefined,
+    end: number | undefined,
+    isLoop: boolean,
+  ) => void
+  addPlayList: (
+    start: number | undefined,
+    end: number | undefined,
+    title: string | undefined,
+    isLoop: boolean,
+  ) => void
   getNowTime: () => Promise<number | undefined>
+  setPlayerVars: Dispatch<SetStateAction<PlayerVars>>
 }
 
 export const StartEndForm: React.FC<Props> = ({
-  start,
-  setStart,
-  end,
-  setEnd,
   startVideo,
-  isLoop,
-  setIsLoop,
   addPlayList,
   getNowTime,
+  setPlayerVars,
 }) => {
+  const [start, setStart] = useState<number | undefined>(undefined)
+  const [end, setEnd] = useState<number | undefined>(undefined)
+  const [title, setTitle] = useState<string | undefined>(undefined)
+  const [isLoop, setIsLoop] = useState<boolean>(false)
+
+  useEffect(() => {
+    setPlayerVars({ start, end })
+  }, [start, end, setPlayerVars])
+
   const setNowTime = async (type: string) => {
     const nowTime = await getNowTime()
     if (type === 'start') {
@@ -41,7 +50,7 @@ export const StartEndForm: React.FC<Props> = ({
         <input
           type="text"
           name="description"
-          onChange={(e) => setStart(parseInt(e.target.value))}
+          onChange={(e) => setTitle(e.target.value)}
         />
       </label>
       <label>
@@ -49,7 +58,6 @@ export const StartEndForm: React.FC<Props> = ({
         <input
           type="text"
           name="start"
-          value={start}
           onChange={(e) => setStart(parseInt(e.target.value))}
         />
         <input
@@ -63,7 +71,6 @@ export const StartEndForm: React.FC<Props> = ({
         <input
           type="text"
           name="end"
-          value={end}
           onChange={(e) => setEnd(parseInt(e.target.value))}
         />
         <input
@@ -74,18 +81,21 @@ export const StartEndForm: React.FC<Props> = ({
       </label>
       <label>
         <span>繰り返し</span>
+        <input type="checkbox" name="loop" onClick={() => setIsLoop(!isLoop)} />
+      </label>
+      <label>
         <input
-          type="checkbox"
-          name="loop"
-          checked={isLoop}
-          onClick={() => setIsLoop(!isLoop)}
+          type="button"
+          value="Play!"
+          onClick={() => startVideo(start, end, isLoop)}
         />
       </label>
       <label>
-        <input type="button" value="Play!" onClick={() => startVideo()} />
-      </label>
-      <label>
-        <input type="button" value="Save!" onClick={() => addPlayList()} />
+        <input
+          type="button"
+          value="Save!"
+          onClick={() => addPlayList(start, end, title, isLoop)}
+        />
       </label>
     </form>
   )
