@@ -1,4 +1,4 @@
-import React, { SetStateAction, Dispatch, useEffect, useState } from 'react'
+import React, { SetStateAction, Dispatch } from 'react'
 
 import { Item, YoutubeSetting } from '@/pages/index'
 
@@ -17,7 +17,7 @@ export const Setting: React.FC<Props> = ({
   startVideo,
   setYoutubeSetting,
 }) => {
-  const [values] = useState<Item[]>(items)
+  // TODO: 既にある設定が一文字打つとfocusが失われる
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     i: number,
@@ -25,7 +25,7 @@ export const Setting: React.FC<Props> = ({
     const target = e.target
     const value = target.type === 'checkbox' ? target.checked : target.value
     const name = target.name
-    setItems(values.splice(i, 1, { ...values[i], [name]: value }))
+    setItems(items.splice(i, 1, { ...items[i], [name]: value }))
   }
 
   const playVideo = async (item: Item) => {
@@ -40,10 +40,6 @@ export const Setting: React.FC<Props> = ({
     startVideo()
   }
 
-  useEffect(() => {
-    setItems(values)
-  }, [values, setItems])
-
   return (
     <div className={styles.setting}>
       <table>
@@ -57,8 +53,8 @@ export const Setting: React.FC<Props> = ({
           </tr>
         </thead>
         <tbody>
-          {values
-            ? values.map((item, i) => (
+          {items
+            ? items.map((item, i) => (
                 <tr key={i}>
                   <td>
                     <input
