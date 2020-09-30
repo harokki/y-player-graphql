@@ -1437,6 +1437,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-table@^7.0.23":
+  version "7.0.23"
+  resolved "https://registry.yarnpkg.com/@types/react-table/-/react-table-7.0.23.tgz#77d10ac36be759f6598f2b185865905425b47833"
+  integrity sha512-1L2wFQVm6QcrSUbAdTUpk2PTYX5Wqx11Kh+wuN/kYYRWNI4OGpj3sIn3QAQ1jOwXKpyLMTL6lpEcUfKw2ZEieQ==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-youtube@^7.6.2":
   version "7.6.2"
   resolved "https://registry.yarnpkg.com/@types/react-youtube/-/react-youtube-7.6.2.tgz#7d25d696d120e3c092f63c4df240ac84246fff8a"
@@ -6191,6 +6198,11 @@ react-refresh@0.8.3:
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.8.3.tgz#721d4657672d400c5e3c75d063c4a85fb2d5d68f"
   integrity sha512-X8jZHc7nCMjaCqoU+V2I0cOhNW+QMBwSUkeXnTi8IPe6zaRWfn60ZzvFDZqWPfmSJfjub7dDW1SP0jaHWLu/hg==
+
+react-table@^7.5.1:
+  version "7.5.1"
+  resolved "https://registry.yarnpkg.com/react-table/-/react-table-7.5.1.tgz#b6a9b46e52c0f37ff91717ac478f430c6a357e41"
+  integrity sha512-rprrUElCqvj79lyY2XbUoYLzwA5Mm4CGS8ElQ8OyzocvmkvCcmunvvfbpIg9Jm9HnMBjVZcVyPFPZ1BFelIBKw==
 
 react-youtube@^7.12.0:
   version "7.12.0"

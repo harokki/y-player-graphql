@@ -4,6 +4,7 @@ import YouTube, { Options } from 'react-youtube'
 
 import { MainForm } from '@/components/form'
 import { Setting } from '@/components/setting'
+import { SettingTable } from '@/components/setting/setting-table'
 import { YplayerHeader } from '@/components/header'
 import { PlayList } from '@/components/playlist'
 
@@ -163,6 +164,9 @@ const IndexPage: NextPage = () => {
           startVideo={startVideo}
           setYoutubeSetting={setYoutubeSetting}
         />
+      </div>
+      <div>
+        <SettingTable data={items} />
       </div>
     </>
   )
