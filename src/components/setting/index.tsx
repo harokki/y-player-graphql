@@ -6,15 +6,28 @@ import styles from './index.module.css'
 
 type Props = {
   items: Item[]
+  setItems: Dispatch<SetStateAction<Item[]>>
   startVideo: () => void
   setYoutubeSetting: Dispatch<SetStateAction<YoutubeSetting>>
 }
 
 export const Setting: React.FC<Props> = ({
   items,
+  setItems,
   startVideo,
   setYoutubeSetting,
 }) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    i: number,
+  ) => {
+    const target = e.target
+    const value = target.type === 'checkbox' ? target.checked : target.value
+    const name = target.name
+    setItems(items.splice(i, 1, { ...items[i], [name]: value }))
+    console.log(items)
+  }
+
   const playVideo = async (item: Item) => {
     await setYoutubeSetting({
       onEndSetting: {
@@ -26,6 +39,7 @@ export const Setting: React.FC<Props> = ({
     })
     startVideo()
   }
+
   return (
     <div className={styles.setting}>
       <table>
@@ -45,7 +59,16 @@ export const Setting: React.FC<Props> = ({
                   <td>{item.description}</td>
                   <td>{item.start}</td>
                   <td>{item.end}</td>
-                  <td>{item.loop ? 'yes' : 'no'}</td>
+                  <td>
+                    <input
+                      name="loop"
+                      type="checkbox"
+                      checked={item.loop}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleInputChange(e, i)
+                      }
+                    />
+                  </td>
                   <td>
                     <button
                       onClick={() => {
