@@ -1,4 +1,4 @@
-import React, { SetStateAction, Dispatch } from 'react'
+import React, { SetStateAction, Dispatch, useState } from 'react'
 
 import { Item, YoutubeSetting } from '@/pages/index'
 
@@ -25,7 +25,6 @@ export const Setting: React.FC<Props> = ({
     const value = target.type === 'checkbox' ? target.checked : target.value
     const name = target.name
     setItems(items.splice(i, 1, { ...items[i], [name]: value }))
-    console.log(items)
   }
 
   const playVideo = async (item: Item) => {
@@ -56,9 +55,35 @@ export const Setting: React.FC<Props> = ({
           {items
             ? items.map((item, i) => (
                 <tr key={i}>
-                  <td>{item.description}</td>
-                  <td>{item.start}</td>
-                  <td>{item.end}</td>
+                  <td>
+                    <input
+                      name="description"
+                      value={item.description ? item.description : ''}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleInputChange(e, i)
+                      }
+                    />
+                  </td>
+                  <td>
+                    <input
+                      name="start"
+                      type="number"
+                      value={item.start ? item.start : 0}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleInputChange(e, i)
+                      }
+                    />
+                  </td>
+                  <td>
+                    <input
+                      name="end"
+                      type="number"
+                      value={item.end ? item.end : 0}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleInputChange(e, i)
+                      }
+                    />
+                  </td>
                   <td>
                     <input
                       name="loop"
