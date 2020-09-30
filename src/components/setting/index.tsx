@@ -15,6 +15,18 @@ export const Setting: React.FC<Props> = ({
   startVideo,
   setYoutubeSetting,
 }) => {
+  const playVideo = async (item: Item) => {
+    await setYoutubeSetting({
+      onEndSetting: {
+        start: item.start,
+        end: item.end,
+        isLoop: item.loop,
+      },
+      playerVars: { start: item.start, end: item.end },
+    })
+    startVideo()
+  }
+
   return (
     <div className={styles.setting}>
       <table>
@@ -37,16 +49,8 @@ export const Setting: React.FC<Props> = ({
                   <td>{item.loop ? 'yes' : 'no'}</td>
                   <td>
                     <button
-                      onClick={async () => {
-                        await setYoutubeSetting({
-                          onEndSetting: {
-                            start: item.start,
-                            end: item.end,
-                            isLoop: item.loop,
-                          },
-                          playerVars: { start: item.start, end: item.end },
-                        })
-                        startVideo()
+                      onClick={() => {
+                        playVideo(item)
                       }}
                     >
                       Play!
