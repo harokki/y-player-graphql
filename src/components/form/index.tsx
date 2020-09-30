@@ -26,12 +26,13 @@ export const MainForm: React.FC<Props> = ({
   const [title, setTitle] = useState<string | undefined>(undefined)
   const [isLoop, setIsLoop] = useState<boolean>(false)
 
-  useEffect(() => {
-    setYoutubeSetting({
+  const playVideo = async () => {
+    await setYoutubeSetting({
       onEndSetting: { start, end, isLoop },
       playerVars: { start, end },
     })
-  }, [start, end, isLoop, setYoutubeSetting])
+    startVideo()
+  }
 
   const setNowTime = async (type: string) => {
     const nowTime = await getNowTime()
@@ -75,7 +76,7 @@ export const MainForm: React.FC<Props> = ({
         <input type="checkbox" name="loop" onClick={() => setIsLoop(!isLoop)} />
       </label>
       <label>
-        <input type="button" value="Play!" onClick={() => startVideo()} />
+        <input type="button" value="Play!" onClick={() => playVideo()} />
       </label>
       <label>
         <input
