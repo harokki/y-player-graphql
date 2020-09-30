@@ -128,6 +128,20 @@ const IndexPage: NextPage = () => {
     setItems(playList[videoId])
   }, [videoId, playList])
 
+  const updateMyData = (rowIndex: number, columnId: string, value: any) => {
+    setItems((old) =>
+      old.map((row, index) => {
+        if (index === rowIndex) {
+          return {
+            ...old[rowIndex],
+            [columnId]: value,
+          }
+        }
+        return row
+      }),
+    )
+  }
+
   const opts: Options = {
     height: '390',
     width: '640',
@@ -166,7 +180,7 @@ const IndexPage: NextPage = () => {
         />
       </div>
       <div>
-        <SettingTable data={items} />
+        <SettingTable data={items} updateMyData={updateMyData} />
       </div>
     </>
   )
