@@ -64,9 +64,6 @@ const initialPlayList: PlayListItem = {
 const IndexPage: NextPage = () => {
   const [videoId, setVideoId] = useState<string>('2g811Eo7K8U')
   const [playList, setPlayList] = useState<PlayListItem>(initialPlayList)
-  const [items, setItems] = useState<Item[]>(
-    playList[videoId] ? playList[videoId] : [],
-  )
   const [youtubeSetting, setYoutubeSetting] = useState<YoutubeSetting>({
     onEndSetting: { start: undefined, end: undefined, isLoop: false },
     playerVars: { start: undefined, end: undefined },
@@ -92,7 +89,6 @@ const IndexPage: NextPage = () => {
       copyObject[videoId].unshift(newItem)
     }
     setPlayList(copyObject)
-    setItems(playList[videoId])
   }
 
   const startVideo = () => {
@@ -124,18 +120,6 @@ const IndexPage: NextPage = () => {
       setVideoId('2g811Eo7K8U')
     }
   }, [videoId])
-
-  // ビデオIDまたはplayListが変更された時にアイテムを設定しなおす
-  useEffect(() => {
-    setItems(playList[videoId])
-  }, [videoId, playList])
-
-  // アイテムがsettingで変更された時にプレイリストを設定しなおす
-  useEffect(() => {
-    const copyObject = Object.assign({}, playList)
-    copyObject[videoId] = items
-    setPlayList(copyObject)
-  }, [items])
 
   const opts: Options = {
     height: '390',
@@ -169,8 +153,9 @@ const IndexPage: NextPage = () => {
       </div>
       <div className={styles.settingForm}>
         <Setting
-          items={items}
-          setItems={setItems}
+          videoId={videoId}
+          playList={playList}
+          setPlayList={setPlayList}
           startVideo={startVideo}
           setYoutubeSetting={setYoutubeSetting}
         />

@@ -1,23 +1,24 @@
 import React, { SetStateAction, Dispatch } from 'react'
 
-import { Item, YoutubeSetting } from '@/pages/index'
+import { Item, PlayListItem, YoutubeSetting } from '@/pages/index'
 
 import styles from './index.module.css'
 
 type Props = {
-  items: Item[]
-  setItems: Dispatch<SetStateAction<Item[]>>
+  videoId: string
+  playList: PlayListItem
+  setPlayList: Dispatch<SetStateAction<PlayListItem>>
   startVideo: () => void
   setYoutubeSetting: Dispatch<SetStateAction<YoutubeSetting>>
 }
 
 export const Setting: React.FC<Props> = ({
-  items,
-  setItems,
+  videoId,
+  playList,
+  setPlayList,
   startVideo,
   setYoutubeSetting,
 }) => {
-  // TODO: 既にある設定が一文字打つとfocusが失われる
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     i: number,
@@ -25,9 +26,11 @@ export const Setting: React.FC<Props> = ({
     const target = e.target
     const value = target.type === 'checkbox' ? target.checked : target.value
     const name = target.name
-    const copiedItems = items.slice()
-    copiedItems[i] = { ...items[i], [name]: value }
-    setItems(copiedItems)
+    const copiedItems = playList[videoId].slice()
+    copiedItems[i] = { ...copiedItems[i], [name]: value }
+    const copiedPlayList = Object.assign({}, playList)
+    copiedPlayList[videoId] = copiedItems
+    setPlayList(copiedPlayList)
   }
 
   const playVideo = async (item: Item) => {
@@ -55,8 +58,8 @@ export const Setting: React.FC<Props> = ({
           </tr>
         </thead>
         <tbody>
-          {items
-            ? items.map((item, i) => (
+          {playList[videoId]
+            ? playList[videoId].map((item, i) => (
                 <tr key={i}>
                   <td>
                     <input
