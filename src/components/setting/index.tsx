@@ -25,7 +25,9 @@ export const Setting: React.FC<Props> = ({
     const target = e.target
     const value = target.type === 'checkbox' ? target.checked : target.value
     const name = target.name
-    setItems(items.splice(i, 1, { ...items[i], [name]: value }))
+    const copiedItems = items.slice()
+    copiedItems[i] = { ...items[i], [name]: value }
+    setItems(copiedItems)
   }
 
   const playVideo = async (item: Item) => {

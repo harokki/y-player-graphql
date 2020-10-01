@@ -92,6 +92,7 @@ const IndexPage: NextPage = () => {
       copyObject[videoId].unshift(newItem)
     }
     setPlayList(copyObject)
+    setItems(playList[videoId])
   }
 
   const startVideo = () => {
@@ -117,15 +118,24 @@ const IndexPage: NextPage = () => {
     }
   }
 
+  // 検索フォームが空になった時にデフォルトのビデオIDをセットする
   useEffect(() => {
     if (videoId === '') {
       setVideoId('2g811Eo7K8U')
     }
   }, [videoId])
 
+  // ビデオIDまたはplayListが変更された時にアイテムを設定しなおす
   useEffect(() => {
     setItems(playList[videoId])
-  }, [videoId, playList, items])
+  }, [videoId, playList])
+
+  // アイテムがsettingで変更された時にプレイリストを設定しなおす
+  useEffect(() => {
+    const copyObject = Object.assign({}, playList)
+    copyObject[videoId] = items
+    setPlayList(copyObject)
+  }, [items])
 
   const opts: Options = {
     height: '390',
