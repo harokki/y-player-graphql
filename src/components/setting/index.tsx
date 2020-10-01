@@ -5,16 +5,28 @@ import { Item, YoutubeSetting } from '@/pages/index'
 import styles from './index.module.css'
 
 type Props = {
-  items: Item[]
+  getSettings: () => Item[]
+  updatePlayList: (index: number, name: string, value: string | boolean) => void
   startVideo: () => void
   setYoutubeSetting: Dispatch<SetStateAction<YoutubeSetting>>
 }
 
 export const Setting: React.FC<Props> = ({
-  items,
+  getSettings,
+  updatePlayList,
   startVideo,
   setYoutubeSetting,
 }) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    i: number,
+  ) => {
+    const target = e.target
+    const value = target.type === 'checkbox' ? target.checked : target.value
+    const name = target.name
+    updatePlayList(i, name, value)
+  }
+
   const playVideo = async (item: Item) => {
     await setYoutubeSetting({
       onEndSetting: {
@@ -26,6 +38,7 @@ export const Setting: React.FC<Props> = ({
     })
     startVideo()
   }
+
   return (
     <div className={styles.setting}>
       <table>
@@ -39,13 +52,48 @@ export const Setting: React.FC<Props> = ({
           </tr>
         </thead>
         <tbody>
-          {items
-            ? items.map((item, i) => (
+          {getSettings()
+            ? getSettings().map((item, i) => (
                 <tr key={i}>
-                  <td>{item.description}</td>
-                  <td>{item.start}</td>
-                  <td>{item.end}</td>
-                  <td>{item.loop ? 'yes' : 'no'}</td>
+                  <td>
+                    <input
+                      name="description"
+                      value={item.description ? item.description : ''}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleInputChange(e, i)
+                      }
+                    />
+                  </td>
+                  <td>
+                    <input
+                      name="start"
+                      type="number"
+                      value={item.start ? item.start : 0}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleInputChange(e, i)
+                      }
+                    />
+                  </td>
+                  <td>
+                    <input
+                      name="end"
+                      type="number"
+                      value={item.end ? item.end : 0}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleInputChange(e, i)
+                      }
+                    />
+                  </td>
+                  <td>
+                    <input
+                      name="loop"
+                      type="checkbox"
+                      checked={item.loop}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleInputChange(e, i)
+                      }
+                    />
+                  </td>
                   <td>
                     <button
                       onClick={() => {

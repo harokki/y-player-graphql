@@ -34,3 +34,8 @@
 .setting tbody tr td:last-child {
   border-bottom: none;
 }
+
+.setting input {
+  border: none;
+  outline: none;
+}

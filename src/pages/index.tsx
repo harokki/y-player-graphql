@@ -64,9 +64,6 @@ const initialPlayList: PlayListItem = {
 const IndexPage: NextPage = () => {
   const [videoId, setVideoId] = useState<string>('2g811Eo7K8U')
   const [playList, setPlayList] = useState<PlayListItem>(initialPlayList)
-  const [items, setItems] = useState<Item[]>(
-    playList[videoId] ? playList[videoId] : [],
-  )
   const [youtubeSetting, setYoutubeSetting] = useState<YoutubeSetting>({
     onEndSetting: { start: undefined, end: undefined, isLoop: false },
     playerVars: { start: undefined, end: undefined },
@@ -117,15 +114,28 @@ const IndexPage: NextPage = () => {
     }
   }
 
+  const getSettings = () => {
+    return playList[videoId]
+  }
+
+  const updatePlayList = (
+    index: number,
+    name: string,
+    value: string | boolean,
+  ) => {
+    const copiedItems = playList[videoId].slice()
+    copiedItems[index] = { ...copiedItems[index], [name]: value }
+    const copiedPlayList = Object.assign({}, playList)
+    copiedPlayList[videoId] = copiedItems
+    setPlayList(copiedPlayList)
+  }
+
+  // 検索フォームが空になった時にデフォルトのビデオIDをセットする
   useEffect(() => {
     if (videoId === '') {
       setVideoId('2g811Eo7K8U')
     }
   }, [videoId])
-
-  useEffect(() => {
-    setItems(playList[videoId])
-  }, [videoId, playList])
 
   const opts: Options = {
     height: '390',
@@ -159,7 +169,8 @@ const IndexPage: NextPage = () => {
       </div>
       <div className={styles.settingForm}>
         <Setting
-          items={items}
+          getSettings={getSettings}
+          updatePlayList={updatePlayList}
           startVideo={startVideo}
           setYoutubeSetting={setYoutubeSetting}
         />
