@@ -1,21 +1,19 @@
 import React, { SetStateAction, Dispatch } from 'react'
 
-import { Item, PlayListItem, YoutubeSetting } from '@/pages/index'
+import { Item, YoutubeSetting } from '@/pages/index'
 
 import styles from './index.module.css'
 
 type Props = {
-  videoId: string
-  playList: PlayListItem
-  setPlayList: Dispatch<SetStateAction<PlayListItem>>
+  getSettings: () => Item[]
+  updatePlayList: (index: number, name: string, value: string | boolean) => void
   startVideo: () => void
   setYoutubeSetting: Dispatch<SetStateAction<YoutubeSetting>>
 }
 
 export const Setting: React.FC<Props> = ({
-  videoId,
-  playList,
-  setPlayList,
+  getSettings,
+  updatePlayList,
   startVideo,
   setYoutubeSetting,
 }) => {
@@ -26,11 +24,7 @@ export const Setting: React.FC<Props> = ({
     const target = e.target
     const value = target.type === 'checkbox' ? target.checked : target.value
     const name = target.name
-    const copiedItems = playList[videoId].slice()
-    copiedItems[i] = { ...copiedItems[i], [name]: value }
-    const copiedPlayList = Object.assign({}, playList)
-    copiedPlayList[videoId] = copiedItems
-    setPlayList(copiedPlayList)
+    updatePlayList(i, name, value)
   }
 
   const playVideo = async (item: Item) => {
@@ -58,8 +52,8 @@ export const Setting: React.FC<Props> = ({
           </tr>
         </thead>
         <tbody>
-          {playList[videoId]
-            ? playList[videoId].map((item, i) => (
+          {getSettings()
+            ? getSettings().map((item, i) => (
                 <tr key={i}>
                   <td>
                     <input

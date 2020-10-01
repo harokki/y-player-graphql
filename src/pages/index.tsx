@@ -114,6 +114,22 @@ const IndexPage: NextPage = () => {
     }
   }
 
+  const getSettings = () => {
+    return playList[videoId]
+  }
+
+  const updatePlayList = (
+    index: number,
+    name: string,
+    value: string | boolean,
+  ) => {
+    const copiedItems = playList[videoId].slice()
+    copiedItems[index] = { ...copiedItems[index], [name]: value }
+    const copiedPlayList = Object.assign({}, playList)
+    copiedPlayList[videoId] = copiedItems
+    setPlayList(copiedPlayList)
+  }
+
   // 検索フォームが空になった時にデフォルトのビデオIDをセットする
   useEffect(() => {
     if (videoId === '') {
@@ -153,9 +169,8 @@ const IndexPage: NextPage = () => {
       </div>
       <div className={styles.settingForm}>
         <Setting
-          videoId={videoId}
-          playList={playList}
-          setPlayList={setPlayList}
+          getSettings={getSettings}
+          updatePlayList={updatePlayList}
           startVideo={startVideo}
           setYoutubeSetting={setYoutubeSetting}
         />
