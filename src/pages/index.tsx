@@ -115,7 +115,7 @@ const IndexPage: NextPage = () => {
   }
 
   const getSettings = () => {
-    return playList[videoId]
+    return playList[videoId] ? playList[videoId] : []
   }
 
   const updatePlayList = (
