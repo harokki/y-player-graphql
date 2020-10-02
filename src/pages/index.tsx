@@ -36,11 +36,6 @@ export type PlayerVars = {
   end: number | undefined
 }
 
-export type SettingProps = {
-  items: Item[]
-  disables: boolean[]
-}
-
 const initialPlayList: PlayListItem = {
   TruaIGcjaEI: [
     {
@@ -73,9 +68,6 @@ const IndexPage: NextPage = () => {
     onEndSetting: { start: undefined, end: undefined, isLoop: false },
     playerVars: { start: undefined, end: undefined },
   })
-  const [disables, setDisables] = useState<boolean[]>(
-    Array(playList[videoId].length).fill(true),
-  )
   const playerRef = useRef<any | undefined>()
 
   const addPlayList = (
@@ -123,8 +115,7 @@ const IndexPage: NextPage = () => {
   }
 
   const getSettings = () => {
-    const items = playList[videoId] ? playList[videoId] : []
-    return { items, disables }
+    return playList[videoId]
   }
 
   const updatePlayList = (
@@ -145,10 +136,6 @@ const IndexPage: NextPage = () => {
       setVideoId('2g811Eo7K8U')
     }
   }, [videoId])
-
-  useEffect(() => {
-    setDisables(Array(playList[videoId].length).fill(true))
-  }, [playList, videoId])
 
   const opts: Options = {
     height: '390',
@@ -183,7 +170,6 @@ const IndexPage: NextPage = () => {
       <div className={styles.settingForm}>
         <Setting
           getSettings={getSettings}
-          setDisables={setDisables}
           updatePlayList={updatePlayList}
           startVideo={startVideo}
           setYoutubeSetting={setYoutubeSetting}
