@@ -3,7 +3,7 @@ import { NextPage } from 'next'
 import YouTube, { Options } from 'react-youtube'
 
 import { MainForm } from '@/components/form'
-import { Setting } from '@/components/setting'
+import { SettingTable } from '@/components/setting'
 import { YplayerHeader } from '@/components/header'
 import { PlayList } from '@/components/playlist'
 import { useGetPlayListQuery } from '@/generated/graphql'
@@ -64,6 +64,7 @@ const initialPlayList: PlayListItem = {
 
 const IndexPage: NextPage = () => {
   const [videoId, setVideoId] = useState<string>('2g811Eo7K8U')
+  const [playlistId, setPlaylistId] = useState<string | undefined>(undefined)
   const [playList, setPlayList] = useState<PlayListItem>(initialPlayList)
   const [youtubeSetting, setYoutubeSetting] = useState<YoutubeSetting>({
     onEndSetting: { start: undefined, end: undefined, isLoop: false },
@@ -116,10 +117,6 @@ const IndexPage: NextPage = () => {
     }
   }
 
-  const getSettings = () => {
-    return playList[videoId]
-  }
-
   const updatePlayList = (
     index: number,
     name: string,
@@ -168,6 +165,7 @@ const IndexPage: NextPage = () => {
           <PlayList
             playList={data ? data.playlist : []}
             setVideoId={setVideoId}
+            setPlaylistId={setPlaylistId}
           />
         </div>
       </div>
@@ -180,8 +178,8 @@ const IndexPage: NextPage = () => {
         />
       </div>
       <div className={styles.settingForm}>
-        <Setting
-          getSettings={getSettings}
+        <SettingTable
+          playlistId={playlistId}
           updatePlayList={updatePlayList}
           startVideo={startVideo}
           setYoutubeSetting={setYoutubeSetting}

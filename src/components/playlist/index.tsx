@@ -6,16 +6,22 @@ import { Playlist } from '@/generated/graphql'
 type Props = {
   playList: Playlist[]
   setVideoId: Dispatch<SetStateAction<string>>
+  setPlaylistId: Dispatch<SetStateAction<string | undefined>>
 }
 
-export const PlayList: React.FC<Props> = ({ playList, setVideoId }) => {
+export const PlayList: React.FC<Props> = ({
+  playList,
+  setVideoId,
+  setPlaylistId,
+}) => {
   const getImg = (videoId: string) => {
     const url = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`
     return <img src={url} width={168} />
   }
 
-  const setVideo = (key: string) => {
-    setVideoId(key)
+  const setVideo = (videoId: string, playlistId: string) => {
+    setVideoId(videoId)
+    setPlaylistId(playlistId)
   }
 
   return (
@@ -25,7 +31,7 @@ export const PlayList: React.FC<Props> = ({ playList, setVideoId }) => {
         <div
           key={i}
           className={styles.box}
-          onClick={() => setVideo(item.videoId)}
+          onClick={() => setVideo(item.videoId, item.id)}
         >
           <div className={styles.boxImg}>{getImg(item.videoId)}</div>
           <div className={styles.boxText}>

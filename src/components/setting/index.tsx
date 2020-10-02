@@ -1,22 +1,27 @@
 import React, { SetStateAction, Dispatch } from 'react'
 
-import { Item, YoutubeSetting } from '@/pages/index'
+import { YoutubeSetting } from '@/pages/index'
 
 import styles from './index.module.css'
+import { useGetSettingQuery, Setting } from '@/generated/graphql'
 
 type Props = {
-  getSettings: () => Item[]
+  playlistId: string | undefined
   updatePlayList: (index: number, name: string, value: string | boolean) => void
   startVideo: () => void
   setYoutubeSetting: Dispatch<SetStateAction<YoutubeSetting>>
 }
 
-export const Setting: React.FC<Props> = ({
-  getSettings,
+export const SettingTable: React.FC<Props> = ({
+  playlistId,
   updatePlayList,
   startVideo,
   setYoutubeSetting,
 }) => {
+  console.log(playlistId)
+  const { loading, error, data } = useGetSettingQuery({
+    variables: { playlistId: playlistId as string },
+  })
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     i: number,
@@ -27,7 +32,7 @@ export const Setting: React.FC<Props> = ({
     updatePlayList(i, name, value)
   }
 
-  const playVideo = async (item: Item) => {
+  const playVideo = async (item: Setting) => {
     await setYoutubeSetting({
       onEndSetting: {
         start: item.start,
@@ -37,6 +42,13 @@ export const Setting: React.FC<Props> = ({
       playerVars: { start: item.start, end: item.end },
     })
     startVideo()
+  }
+
+  if (loading) {
+    return <p>loading...</p>
+  }
+  if (error) {
+    return <p>{error.toString()}</p>
   }
 
   return (
@@ -52,8 +64,8 @@ export const Setting: React.FC<Props> = ({
           </tr>
         </thead>
         <tbody>
-          {getSettings()
-            ? getSettings().map((item, i) => (
+          {data
+            ? data.setting.map((item, i) => (
                 <tr key={i}>
                   <td>
                     <input

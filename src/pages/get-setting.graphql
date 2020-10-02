@@ -1,0 +1,12 @@
+query getSetting($playlistId: uuid!) {
+  setting(where: { playlistId: { _eq: $playlistId } }) {
+    id
+    playlistId
+    description
+    start
+    end
+    loop
+    createdAt
+    updatedAt
+  }
+}
