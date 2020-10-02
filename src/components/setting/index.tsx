@@ -1,11 +1,12 @@
-import React, { SetStateAction, Dispatch, useState } from 'react'
+import React, { SetStateAction, Dispatch } from 'react'
 
-import { Item, YoutubeSetting } from '@/pages/index'
+import { Item, YoutubeSetting, SettingProps } from '@/pages/index'
 
 import styles from './index.module.css'
 
 type Props = {
-  getSettings: () => Item[]
+  getSettings: () => SettingProps
+  setDisables: Dispatch<SetStateAction<boolean[]>>
   updatePlayList: (index: number, name: string, value: string | boolean) => void
   startVideo: () => void
   setYoutubeSetting: Dispatch<SetStateAction<YoutubeSetting>>
@@ -13,14 +14,14 @@ type Props = {
 
 export const Setting: React.FC<Props> = ({
   getSettings,
+  setDisables,
   updatePlayList,
   startVideo,
   setYoutubeSetting,
 }) => {
-  const items = getSettings()
-  const [disables, setDisables] = useState<boolean[]>(
-    Array(items.length).fill(true),
-  )
+  const settings = getSettings()
+  const items = settings.items
+  const disables = settings.disables
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     i: number,
