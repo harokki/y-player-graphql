@@ -1,11 +1,12 @@
 import React, { SetStateAction, Dispatch } from 'react'
 
-import { Item, YoutubeSetting } from '@/pages/index'
+import { Item, YoutubeSetting, SettingProps } from '@/pages/index'
 
 import styles from './index.module.css'
 
 type Props = {
-  getSettings: () => Item[]
+  getSettings: () => SettingProps
+  setDisables: Dispatch<SetStateAction<boolean[]>>
   updatePlayList: (index: number, name: string, value: string | boolean) => void
   startVideo: () => void
   setYoutubeSetting: Dispatch<SetStateAction<YoutubeSetting>>
@@ -13,10 +14,14 @@ type Props = {
 
 export const Setting: React.FC<Props> = ({
   getSettings,
+  setDisables,
   updatePlayList,
   startVideo,
   setYoutubeSetting,
 }) => {
+  const settings = getSettings()
+  const items = settings.items
+  const disables = settings.disables
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     i: number,
@@ -39,6 +44,12 @@ export const Setting: React.FC<Props> = ({
     startVideo()
   }
 
+  const changeDisabled = (index: number) => {
+    const copiedDisables = disables.slice()
+    copiedDisables[index] = !disables[index]
+    setDisables(copiedDisables)
+  }
+
   return (
     <div className={styles.setting}>
       <table>
@@ -52,60 +63,65 @@ export const Setting: React.FC<Props> = ({
           </tr>
         </thead>
         <tbody>
-          {getSettings()
-            ? getSettings().map((item, i) => (
-                <tr key={i}>
-                  <td>
-                    <input
-                      name="description"
-                      value={item.description ? item.description : ''}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleInputChange(e, i)
-                      }
-                    />
-                  </td>
-                  <td>
-                    <input
-                      name="start"
-                      type="number"
-                      value={item.start ? item.start : 0}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleInputChange(e, i)
-                      }
-                    />
-                  </td>
-                  <td>
-                    <input
-                      name="end"
-                      type="number"
-                      value={item.end ? item.end : 0}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleInputChange(e, i)
-                      }
-                    />
-                  </td>
-                  <td>
-                    <input
-                      name="loop"
-                      type="checkbox"
-                      checked={item.loop}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleInputChange(e, i)
-                      }
-                    />
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => {
-                        playVideo(item)
-                      }}
-                    >
-                      Play!
-                    </button>
-                  </td>
-                </tr>
-              ))
-            : null}
+          {items.map((item, i) => (
+            <tr key={i}>
+              <td>
+                <input
+                  name="description"
+                  value={item.description ? item.description : ''}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleInputChange(e, i)
+                  }
+                  disabled={disables[i]}
+                />
+              </td>
+              <td>
+                <input
+                  name="start"
+                  type="number"
+                  value={item.start ? item.start : 0}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleInputChange(e, i)
+                  }
+                  disabled={disables[i]}
+                />
+              </td>
+              <td>
+                <input
+                  name="end"
+                  type="number"
+                  value={item.end ? item.end : 0}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleInputChange(e, i)
+                  }
+                  disabled={disables[i]}
+                />
+              </td>
+              <td>
+                <input
+                  name="loop"
+                  type="checkbox"
+                  checked={item.loop}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleInputChange(e, i)
+                  }
+                  disabled={disables[i]}
+                />
+              </td>
+              <td>
+                <button
+                  onClick={() => {
+                    playVideo(item)
+                  }}
+                >
+                  Play!
+                </button>
+                <button onClick={() => changeDisabled(i)}>
+                  {disables[i] ? 'Edit!' : 'Save!'}
+                </button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
