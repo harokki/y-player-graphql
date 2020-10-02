@@ -12,6 +12,7 @@
     "@apollo/react-hooks": "^4.0.0",
     "@types/react-youtube": "^7.6.2",
     "graphql": "^15.3.0",
+    "minireset.css": "^0.0.6",
     "next": "9.5.3",
     "react": "16.13.1",
     "react-dom": "16.13.1",
