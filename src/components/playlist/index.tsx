@@ -1,10 +1,10 @@
 import { Dispatch, SetStateAction } from 'react'
 
-import { PlayListItem } from '@/pages/index'
 import styles from './index.module.css'
+import { Playlist } from '@/generated/graphql'
 
 type Props = {
-  playList: PlayListItem
+  playList: Playlist[]
   setVideoId: Dispatch<SetStateAction<string>>
 }
 
@@ -21,11 +21,15 @@ export const PlayList: React.FC<Props> = ({ playList, setVideoId }) => {
   return (
     <div className={styles.img}>
       <span>プレイリスト</span>
-      {Object.entries(playList).map(([key, value], i) => (
-        <div key={i} className={styles.box} onClick={() => setVideo(key)}>
-          <div className={styles.boxImg}>{getImg(key)}</div>
+      {playList.map((item, i) => (
+        <div
+          key={i}
+          className={styles.box}
+          onClick={() => setVideo(item.videoId)}
+        >
+          <div className={styles.boxImg}>{getImg(item.videoId)}</div>
           <div className={styles.boxText}>
-            <span>test</span>
+            <span>{item.title}</span>
           </div>
         </div>
       ))}

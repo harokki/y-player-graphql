@@ -1,0 +1,9 @@
+query getPlayList {
+  playlist {
+    id
+    videoId
+    title
+    createdAt
+    updatedAt
+  }
+}

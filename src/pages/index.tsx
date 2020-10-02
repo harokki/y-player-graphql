@@ -6,6 +6,7 @@ import { MainForm } from '@/components/form'
 import { Setting } from '@/components/setting'
 import { YplayerHeader } from '@/components/header'
 import { PlayList } from '@/components/playlist'
+import { useGetPlayListQuery } from '@/generated/graphql'
 
 import styles from './index.module.css'
 
@@ -69,6 +70,7 @@ const IndexPage: NextPage = () => {
     playerVars: { start: undefined, end: undefined },
   })
   const playerRef = useRef<any | undefined>()
+  const { loading, error, data } = useGetPlayListQuery()
 
   const addPlayList = (
     start: number | undefined,
@@ -143,6 +145,13 @@ const IndexPage: NextPage = () => {
     playerVars: youtubeSetting.playerVars,
   }
 
+  if (loading) {
+    return <p>loading...</p>
+  }
+  if (error) {
+    return <p>{error.toString()}</p>
+  }
+
   return (
     <>
       <YplayerHeader setVideoId={setVideoId} />
@@ -156,7 +165,10 @@ const IndexPage: NextPage = () => {
           />
         </div>
         <div className={styles.playList}>
-          <PlayList playList={playList} setVideoId={setVideoId} />
+          <PlayList
+            playList={data ? data.playlist : []}
+            setVideoId={setVideoId}
+          />
         </div>
       </div>
       <div className={styles.mainForm}>
