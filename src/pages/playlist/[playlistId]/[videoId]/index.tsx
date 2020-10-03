@@ -103,6 +103,9 @@ const Playlist: NextPage = () => {
     <>
       <YplayerHeader />
       <div className={styles.body}>
+        <div className={styles.playlist}>
+          <PlaylistMenu playlist={data ? data.playlist : []} />
+        </div>
         <div className={styles.youtube}>
           <YouTube
             videoId={videoId as string}
@@ -110,9 +113,6 @@ const Playlist: NextPage = () => {
             opts={opts}
             ref={playerRef}
           />
-        </div>
-        <div className={styles.playlist}>
-          <PlaylistMenu playlist={data ? data.playlist : []} />
         </div>
       </div>
       <div className={styles.mainForm}>{getMainForm()}</div>

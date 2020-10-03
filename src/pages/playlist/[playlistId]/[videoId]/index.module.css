@@ -11,9 +11,7 @@
 }
 
 .playlist {
-  margin: 16px 48px 16px auto;
-  display: flex;
-  align-items: flex-start;
+  margin: 16px auto 16px 48px;
   height: 100%;
   overflow: auto;
   overflow-y: scroll;
