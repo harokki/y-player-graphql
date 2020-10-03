@@ -7,7 +7,7 @@ import { useGetPlayListQuery, useGetSettingQuery } from '@/generated/graphql'
 import { YplayerHeader } from '@/components/header'
 import { SettingTable } from '@/components/setting'
 import { MainForm } from '@/components/form'
-import { PlayList } from '@/components/playlist'
+import { PlaylistMenu } from '@/components/playlist'
 
 import styles from './index.module.css'
 
@@ -111,8 +111,8 @@ const Playlist: NextPage = () => {
             ref={playerRef}
           />
         </div>
-        <div className={styles.playList}>
-          <PlayList playList={data ? data.playlist : []} />
+        <div className={styles.playlist}>
+          <PlaylistMenu playlist={data ? data.playlist : []} />
         </div>
       </div>
       <div className={styles.mainForm}>{getMainForm()}</div>

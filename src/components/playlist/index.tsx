@@ -4,10 +4,10 @@ import styles from './index.module.css'
 import { Playlist } from '@/generated/graphql'
 
 type Props = {
-  playList: Playlist[]
+  playlist: Playlist[]
 }
 
-export const PlayList: React.FC<Props> = ({ playList }) => {
+export const PlaylistMenu: React.FC<Props> = ({ playlist }) => {
   const router = useRouter()
   const getImg = (videoId: string) => {
     const url = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`
@@ -21,7 +21,7 @@ export const PlayList: React.FC<Props> = ({ playList }) => {
   return (
     <div className={styles.img}>
       <span>プレイリスト</span>
-      {playList.map((item, i) => (
+      {playlist.map((item, i) => (
         <div
           key={i}
           className={styles.box}

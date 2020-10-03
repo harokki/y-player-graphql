@@ -2,7 +2,7 @@ import React from 'react'
 import { NextPage } from 'next'
 
 import { YplayerHeader } from '@/components/header'
-import { PlayList } from '@/components/playlist'
+import { PlaylistMenu } from '@/components/playlist'
 import { useGetPlayListQuery } from '@/generated/graphql'
 
 import styles from './index.module.css'
@@ -36,8 +36,8 @@ const IndexPage: NextPage = () => {
   return (
     <>
       <YplayerHeader />
-      <div className={styles.playList}>
-        <PlayList playList={data ? data.playlist : []} />
+      <div className={styles.playlist}>
+        <PlaylistMenu playlist={data ? data.playlist : []} />
       </div>
     </>
   )
