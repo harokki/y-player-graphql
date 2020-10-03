@@ -7,14 +7,12 @@ import { Setting } from '@/generated/graphql'
 
 type Props = {
   data: Setting[]
-  updatePlayList: (index: number, name: string, value: string | boolean) => void
   startVideo: () => void
   setYoutubeSetting: Dispatch<SetStateAction<YoutubeSetting>>
 }
 
 export const SettingTable: React.FC<Props> = ({
   data,
-  updatePlayList,
   startVideo,
   setYoutubeSetting,
 }) => {
@@ -25,7 +23,7 @@ export const SettingTable: React.FC<Props> = ({
     const target = e.target
     const value = target.type === 'checkbox' ? target.checked : target.value
     const name = target.name
-    updatePlayList(i, name, value)
+    console.log(value, name)
   }
 
   const playVideo = async (item: Setting) => {

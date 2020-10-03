@@ -37,35 +37,9 @@ export type PlayerVars = {
   end: number | undefined
 }
 
-const initialPlayList: PlayListItem = {
-  TruaIGcjaEI: [
-    {
-      description: '説明1',
-      start: 10,
-      end: 20,
-      loop: true,
-    },
-    {
-      description: '説明2',
-      start: 20,
-      end: 30,
-      loop: true,
-    },
-  ],
-  '2g811Eo7K8U': [
-    {
-      description: '説明1',
-      start: 10,
-      end: 20,
-      loop: true,
-    },
-  ],
-}
-
 const IndexPage: NextPage = () => {
   const [videoId, setVideoId] = useState<string>('2g811Eo7K8U')
   const [playlistId, setPlaylistId] = useState<string | undefined>(undefined)
-  const [playList, setPlayList] = useState<PlayListItem>(initialPlayList)
   const [youtubeSetting, setYoutubeSetting] = useState<YoutubeSetting>({
     onEndSetting: { start: undefined, end: undefined, isLoop: false },
     playerVars: { start: undefined, end: undefined },
@@ -102,18 +76,6 @@ const IndexPage: NextPage = () => {
       const nowTime = await playerRef.current.internalPlayer.getCurrentTime()
       return nowTime
     }
-  }
-
-  const updatePlayList = (
-    index: number,
-    name: string,
-    value: string | boolean,
-  ) => {
-    const copiedItems = playList[videoId].slice()
-    copiedItems[index] = { ...copiedItems[index], [name]: value }
-    const copiedPlayList = Object.assign({}, playList)
-    copiedPlayList[videoId] = copiedItems
-    setPlayList(copiedPlayList)
   }
 
   // 検索フォームが空になった時にデフォルトのビデオIDをセットする
@@ -179,7 +141,6 @@ const IndexPage: NextPage = () => {
         {dataS && dataS.setting ? (
           <SettingTable
             data={dataS.setting}
-            updatePlayList={updatePlayList}
             startVideo={startVideo}
             setYoutubeSetting={setYoutubeSetting}
           />
