@@ -34,13 +34,15 @@ export const MainForm: React.FC<Props> = ({
         return
       }
 
+      const convStart = start ? start : 0
+      const convEnd = end ? end : 0
       setPostDisabled(true)
       const { data } = await postSetting({
         variables: {
           playlistId,
           description: title,
-          start,
-          end,
+          start: convStart,
+          end: convEnd,
           loop,
         },
       })

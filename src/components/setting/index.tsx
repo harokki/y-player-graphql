@@ -3,7 +3,7 @@ import React, { SetStateAction, Dispatch, useState, useEffect } from 'react'
 import { YoutubeSetting } from '@/pages/index'
 
 import styles from './index.module.css'
-import { Setting } from '@/generated/graphql'
+import { Setting, useUpdateSettingMutation } from '@/generated/graphql'
 
 type Props = {
   data: Setting[]
@@ -17,6 +17,7 @@ export const SettingTable: React.FC<Props> = ({
   setYoutubeSetting,
 }) => {
   const [setting, setSetting] = useState<Setting[]>(data)
+  const [updateSetting] = useUpdateSettingMutation()
 
   useEffect(() => {
     setSetting(data)
@@ -32,6 +33,23 @@ export const SettingTable: React.FC<Props> = ({
     const copiedSetting = setting.slice()
     copiedSetting[i] = { ...setting[i], [name]: value }
     setSetting(copiedSetting)
+  }
+
+  const saveSetting = async (i: number) => {
+    const item = setting[i]
+    const description = item.description ? item.description : ''
+    const { data } = await updateSetting({
+      variables: {
+        id: item.id,
+        description,
+        start: item.start,
+        end: item.end,
+        loop: item.loop,
+      },
+    })
+    if (!data || !data.update_setting_by_pk) {
+      console.log('POST unknown state', data)
+    }
   }
 
   const playVideo = async (item: Setting) => {
@@ -108,6 +126,13 @@ export const SettingTable: React.FC<Props> = ({
                       }}
                     >
                       Play!
+                    </button>
+                    <button
+                      onClick={() => {
+                        saveSetting(i)
+                      }}
+                    >
+                      Save!
                     </button>
                   </td>
                 </tr>
