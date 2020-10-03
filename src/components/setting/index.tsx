@@ -1,4 +1,4 @@
-import React, { SetStateAction, Dispatch } from 'react'
+import React, { SetStateAction, Dispatch, useState, useEffect } from 'react'
 
 import { YoutubeSetting } from '@/pages/index'
 
@@ -16,6 +16,12 @@ export const SettingTable: React.FC<Props> = ({
   startVideo,
   setYoutubeSetting,
 }) => {
+  const [setting, setSetting] = useState<Setting[]>(data)
+
+  useEffect(() => {
+    setSetting(data)
+  }, [data])
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     i: number,
@@ -23,7 +29,9 @@ export const SettingTable: React.FC<Props> = ({
     const target = e.target
     const value = target.type === 'checkbox' ? target.checked : target.value
     const name = target.name
-    console.log(value, name)
+    const copiedSetting = setting.slice()
+    copiedSetting[i] = { ...setting[i], [name]: value }
+    setSetting(copiedSetting)
   }
 
   const playVideo = async (item: Setting) => {
@@ -51,8 +59,8 @@ export const SettingTable: React.FC<Props> = ({
           </tr>
         </thead>
         <tbody>
-          {data
-            ? data.map((item, i) => (
+          {setting
+            ? setting.map((item, i) => (
                 <tr key={i}>
                   <td>
                     <input
