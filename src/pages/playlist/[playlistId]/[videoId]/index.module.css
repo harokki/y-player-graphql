@@ -1,0 +1,29 @@
+.body {
+  display: flex;
+  align-items: center;
+  height: 420px;
+}
+
+.youtube {
+  display: flex;
+  align-items: center;
+  margin: 16px auto 16px 48px;
+}
+
+.playList {
+  margin: 16px 48px 16px auto;
+  display: flex;
+  align-items: flex-start;
+  height: 100%;
+  overflow: auto;
+  overflow-y: scroll;
+  overflow-x: auto;
+}
+
+.mainForm {
+  margin: 30px;
+}
+
+.settingForm {
+  margin-left: 30px;
+}

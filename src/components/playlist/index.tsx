@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from 'react'
+import { useRouter } from 'next/router'
 
 import styles from './index.module.css'
 import { Playlist } from '@/generated/graphql'
@@ -14,6 +15,7 @@ export const PlayList: React.FC<Props> = ({
   setVideoId,
   setPlaylistId,
 }) => {
+  const router = useRouter()
   const getImg = (videoId: string) => {
     const url = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`
     return <img src={url} width={168} />
@@ -22,6 +24,7 @@ export const PlayList: React.FC<Props> = ({
   const setVideo = (videoId: string, playlistId: string) => {
     setVideoId(videoId)
     setPlaylistId(playlistId)
+    router.push(`/playlist/${playlistId}/${videoId}`)
   }
 
   return (
