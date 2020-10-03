@@ -170,20 +170,25 @@ const IndexPage: NextPage = () => {
         </div>
       </div>
       <div className={styles.mainForm}>
-        <MainForm
-          startVideo={startVideo}
-          addPlayList={addPlayList}
-          getNowTime={getNowTime}
-          setYoutubeSetting={setYoutubeSetting}
-        />
+        {playlistId ? (
+          <MainForm
+            playlistId={playlistId}
+            startVideo={startVideo}
+            addPlayList={addPlayList}
+            getNowTime={getNowTime}
+            setYoutubeSetting={setYoutubeSetting}
+          />
+        ) : null}
       </div>
       <div className={styles.settingForm}>
-        <SettingTable
-          playlistId={playlistId}
-          updatePlayList={updatePlayList}
-          startVideo={startVideo}
-          setYoutubeSetting={setYoutubeSetting}
-        />
+        {playlistId ? (
+          <SettingTable
+            playlistId={playlistId}
+            updatePlayList={updatePlayList}
+            startVideo={startVideo}
+            setYoutubeSetting={setYoutubeSetting}
+          />
+        ) : null}
       </div>
     </>
   )

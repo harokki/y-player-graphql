@@ -18,7 +18,6 @@ export const SettingTable: React.FC<Props> = ({
   startVideo,
   setYoutubeSetting,
 }) => {
-  console.log(playlistId)
   const { loading, error, data } = useGetSettingQuery({
     variables: { playlistId: playlistId as string },
   })
