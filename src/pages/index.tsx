@@ -1,11 +1,10 @@
 import React from 'react'
 import { NextPage } from 'next'
+import { Grid } from 'semantic-ui-react'
 
 import { YplayerHeader } from '@/components/header'
 import { PlaylistMenu } from '@/components/playlist'
 import { useGetPlayListQuery } from '@/generated/graphql'
-
-import styles from './index.module.css'
 
 export type YoutubeSetting = {
   onEndSetting: PlayerSetting
@@ -36,9 +35,14 @@ const IndexPage: NextPage = () => {
   return (
     <>
       <YplayerHeader />
-      <div className={styles.playlist}>
-        <PlaylistMenu playlist={data ? data.playlist : []} />
-      </div>
+      <Grid columns={2}>
+        <Grid.Row>
+          <Grid.Column width={3}>
+            <PlaylistMenu playlist={data ? data.playlist : []} />
+          </Grid.Column>
+          <Grid.Column>aaa</Grid.Column>
+        </Grid.Row>
+      </Grid>
     </>
   )
 }
