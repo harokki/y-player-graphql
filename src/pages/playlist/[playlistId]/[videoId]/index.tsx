@@ -92,6 +92,13 @@ const Playlist: NextPage = () => {
     playerVars: youtubeSetting.playerVars,
   }
 
+  if (loading || loadingS) {
+    return <p>loading...</p>
+  }
+  if (error) {
+    return <p>{error.toString()}</p>
+  }
+
   return (
     <>
       <YplayerHeader />
@@ -103,6 +110,9 @@ const Playlist: NextPage = () => {
             opts={opts}
             ref={playerRef}
           />
+        </div>
+        <div className={styles.playList}>
+          <PlayList playList={data ? data.playlist : []} />
         </div>
       </div>
       <div className={styles.mainForm}>{getMainForm()}</div>
