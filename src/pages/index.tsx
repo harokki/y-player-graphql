@@ -1,12 +1,9 @@
-import React, { useState, useRef } from 'react'
+import React from 'react'
 import { NextPage } from 'next'
-import YouTube, { Options } from 'react-youtube'
 
-import { MainForm } from '@/components/form'
-import { SettingTable } from '@/components/setting'
 import { YplayerHeader } from '@/components/header'
-import { PlayList } from '@/components/playlist'
-import { useGetPlayListQuery, useGetSettingQuery } from '@/generated/graphql'
+import { PlaylistMenu } from '@/components/playlist'
+import { useGetPlayListQuery } from '@/generated/graphql'
 
 import styles from './index.module.css'
 
@@ -27,71 +24,9 @@ export type PlayerVars = {
 }
 
 const IndexPage: NextPage = () => {
-  const [videoId, setVideoId] = useState<string>('2g811Eo7K8U')
-  const [playlistId, setPlaylistId] = useState<string | undefined>(undefined)
-  const [youtubeSetting, setYoutubeSetting] = useState<YoutubeSetting>({
-    onEndSetting: { start: undefined, end: undefined, isLoop: false },
-    playerVars: { start: undefined, end: undefined },
-  })
-  const playerRef = useRef<any | undefined>()
   const { loading, error, data } = useGetPlayListQuery()
-  const {
-    loading: loadingS,
-    error: errorS,
-    data: dataS,
-    refetch,
-  } = useGetSettingQuery({
-    variables: { playlistId: playlistId as string },
-  })
 
-  const startVideo = () => {
-    if (playerRef && playerRef.current) {
-      playerRef.current.internalPlayer.playVideo()
-    }
-  }
-
-  const onEnd = () => {
-    if (playerRef && playerRef.current) {
-      playerRef.current.internalPlayer.pauseVideo()
-      playerRef.current.internalPlayer.seekTo(youtubeSetting.onEndSetting.start)
-      if (youtubeSetting.onEndSetting.isLoop) {
-        playerRef.current.internalPlayer.playVideo()
-      }
-    }
-  }
-
-  const getNowTime = async (): Promise<number | undefined> => {
-    if (playerRef && playerRef.current) {
-      const nowTime = await playerRef.current.internalPlayer.getCurrentTime()
-      return nowTime
-    }
-  }
-
-  const opts: Options = {
-    height: '390',
-    width: '640',
-    playerVars: youtubeSetting.playerVars,
-  }
-
-  const getMainForm = () => {
-    if (!playlistId) {
-      return null
-    }
-    if (errorS) {
-      return <p>{errorS.toString()}</p>
-    }
-    return (
-      <MainForm
-        refetch={refetch}
-        playlistId={playlistId}
-        startVideo={startVideo}
-        getNowTime={getNowTime}
-        setYoutubeSetting={setYoutubeSetting}
-      />
-    )
-  }
-
-  if (loading || loadingS) {
+  if (loading) {
     return <p>loading...</p>
   }
   if (error) {
@@ -101,32 +36,8 @@ const IndexPage: NextPage = () => {
   return (
     <>
       <YplayerHeader />
-      <div className={styles.body}>
-        <div className={styles.youtube}>
-          <YouTube
-            videoId={videoId}
-            onEnd={onEnd}
-            opts={opts}
-            ref={playerRef}
-          />
-        </div>
-        <div className={styles.playList}>
-          <PlayList
-            playList={data ? data.playlist : []}
-            setVideoId={setVideoId}
-            setPlaylistId={setPlaylistId}
-          />
-        </div>
-      </div>
-      <div className={styles.mainForm}>{getMainForm()}</div>
-      <div className={styles.settingForm}>
-        {dataS && dataS.setting ? (
-          <SettingTable
-            data={dataS.setting}
-            startVideo={startVideo}
-            setYoutubeSetting={setYoutubeSetting}
-          />
-        ) : null}
+      <div className={styles.playlist}>
+        <PlaylistMenu playlist={data ? data.playlist : []} />
       </div>
     </>
   )
