@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import { NextPage } from 'next'
 import YouTube, { Options } from 'react-youtube'
 
@@ -67,13 +67,6 @@ const IndexPage: NextPage = () => {
     }
   }
 
-  // 検索フォームが空になった時にデフォルトのビデオIDをセットする
-  useEffect(() => {
-    if (videoId === '') {
-      setVideoId('2g811Eo7K8U')
-    }
-  }, [videoId])
-
   const opts: Options = {
     height: '390',
     width: '640',
@@ -107,7 +100,7 @@ const IndexPage: NextPage = () => {
 
   return (
     <>
-      <YplayerHeader setVideoId={setVideoId} />
+      <YplayerHeader />
       <div className={styles.body}>
         <div className={styles.youtube}>
           <YouTube
