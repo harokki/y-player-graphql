@@ -6,7 +6,7 @@ import { MainForm } from '@/components/form'
 import { SettingTable } from '@/components/setting'
 import { YplayerHeader } from '@/components/header'
 import { PlayList } from '@/components/playlist'
-import { useGetPlayListQuery } from '@/generated/graphql'
+import { useGetPlayListQuery, useGetSettingQuery } from '@/generated/graphql'
 
 import styles from './index.module.css'
 
@@ -72,27 +72,14 @@ const IndexPage: NextPage = () => {
   })
   const playerRef = useRef<any | undefined>()
   const { loading, error, data } = useGetPlayListQuery()
-
-  const addPlayList = (
-    start: number | undefined,
-    end: number | undefined,
-    description: string | undefined,
-    isLoop: boolean,
-  ) => {
-    const copyObject = Object.assign({}, playList)
-    const newItem = {
-      description,
-      start,
-      end,
-      loop: isLoop,
-    }
-    if (!(videoId in copyObject)) {
-      copyObject[videoId] = [newItem]
-    } else {
-      copyObject[videoId].unshift(newItem)
-    }
-    setPlayList(copyObject)
-  }
+  const {
+    loading: loadingS,
+    error: errorS,
+    data: dataS,
+    refetch,
+  } = useGetSettingQuery({
+    variables: { playlistId: playlistId as string },
+  })
 
   const startVideo = () => {
     if (playerRef && playerRef.current) {
@@ -142,7 +129,25 @@ const IndexPage: NextPage = () => {
     playerVars: youtubeSetting.playerVars,
   }
 
-  if (loading) {
+  const getMainForm = () => {
+    if (!playlistId) {
+      return null
+    }
+    if (errorS) {
+      return <p>{errorS.toString()}</p>
+    }
+    return (
+      <MainForm
+        refetch={refetch}
+        playlistId={playlistId}
+        startVideo={startVideo}
+        getNowTime={getNowTime}
+        setYoutubeSetting={setYoutubeSetting}
+      />
+    )
+  }
+
+  if (loading || loadingS) {
     return <p>loading...</p>
   }
   if (error) {
@@ -169,21 +174,11 @@ const IndexPage: NextPage = () => {
           />
         </div>
       </div>
-      <div className={styles.mainForm}>
-        {playlistId ? (
-          <MainForm
-            playlistId={playlistId}
-            startVideo={startVideo}
-            addPlayList={addPlayList}
-            getNowTime={getNowTime}
-            setYoutubeSetting={setYoutubeSetting}
-          />
-        ) : null}
-      </div>
+      <div className={styles.mainForm}>{getMainForm()}</div>
       <div className={styles.settingForm}>
-        {playlistId ? (
+        {dataS && dataS.setting ? (
           <SettingTable
-            playlistId={playlistId}
+            data={dataS.setting}
             updatePlayList={updatePlayList}
             startVideo={startVideo}
             setYoutubeSetting={setYoutubeSetting}

@@ -3,24 +3,21 @@ import React, { SetStateAction, Dispatch } from 'react'
 import { YoutubeSetting } from '@/pages/index'
 
 import styles from './index.module.css'
-import { useGetSettingQuery, Setting } from '@/generated/graphql'
+import { Setting } from '@/generated/graphql'
 
 type Props = {
-  playlistId: string | undefined
+  data: Setting[]
   updatePlayList: (index: number, name: string, value: string | boolean) => void
   startVideo: () => void
   setYoutubeSetting: Dispatch<SetStateAction<YoutubeSetting>>
 }
 
 export const SettingTable: React.FC<Props> = ({
-  playlistId,
+  data,
   updatePlayList,
   startVideo,
   setYoutubeSetting,
 }) => {
-  const { loading, error, data } = useGetSettingQuery({
-    variables: { playlistId: playlistId as string },
-  })
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     i: number,
@@ -43,13 +40,6 @@ export const SettingTable: React.FC<Props> = ({
     startVideo()
   }
 
-  if (loading) {
-    return <p>loading...</p>
-  }
-  if (error) {
-    return <p>{error.toString()}</p>
-  }
-
   return (
     <div className={styles.setting}>
       <table>
@@ -64,7 +54,7 @@ export const SettingTable: React.FC<Props> = ({
         </thead>
         <tbody>
           {data
-            ? data.setting.map((item, i) => (
+            ? data.map((item, i) => (
                 <tr key={i}>
                   <td>
                     <input

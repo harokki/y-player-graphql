@@ -6,22 +6,17 @@ import { usePostSettingMutation } from '@/generated/graphql'
 import styles from './index.module.css'
 
 type Props = {
+  refetch: () => void
   playlistId: string
   startVideo: () => void
-  addPlayList: (
-    start: number | undefined,
-    end: number | undefined,
-    title: string | undefined,
-    isLoop: boolean,
-  ) => void
   getNowTime: () => Promise<number | undefined>
   setYoutubeSetting: Dispatch<SetStateAction<YoutubeSetting>>
 }
 
 export const MainForm: React.FC<Props> = ({
+  refetch,
   playlistId,
   startVideo,
-  addPlayList,
   getNowTime,
   setYoutubeSetting,
 }) => {
@@ -50,13 +45,13 @@ export const MainForm: React.FC<Props> = ({
         },
       })
       if (data && data.insert_setting_one) {
-        // const settingId = data.insert_setting_one.id
+        refetch()
         setPostDisabled(false)
       } else {
         console.log('POST unknown state', data)
       }
     },
-    [start, end, loop, title, postSetting, playlistId, postDisabled],
+    [start, end, loop, title, postSetting, playlistId, postDisabled, refetch],
   )
 
   const playVideo = async () => {
