@@ -1,0 +1,18 @@
+- table:
+    schema: public
+    name: playlist
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      updated_at: updatedAt
+      created_at: createdAt
+      video_id: videoId
+- table:
+    schema: public
+    name: setting
+  configuration:
+    custom_root_fields: {}
+    custom_column_names:
+      playlist_id: playlistId
+      updated_at: updatedAt
+      created_at: createdAt

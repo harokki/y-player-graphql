@@ -1,31 +1,41 @@
 import { Dispatch, SetStateAction } from 'react'
 
-import { PlayListItem } from '@/pages/index'
 import styles from './index.module.css'
+import { Playlist } from '@/generated/graphql'
 
 type Props = {
-  playList: PlayListItem
+  playList: Playlist[]
   setVideoId: Dispatch<SetStateAction<string>>
+  setPlaylistId: Dispatch<SetStateAction<string | undefined>>
 }
 
-export const PlayList: React.FC<Props> = ({ playList, setVideoId }) => {
+export const PlayList: React.FC<Props> = ({
+  playList,
+  setVideoId,
+  setPlaylistId,
+}) => {
   const getImg = (videoId: string) => {
     const url = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`
     return <img src={url} width={168} />
   }
 
-  const setVideo = (key: string) => {
-    setVideoId(key)
+  const setVideo = (videoId: string, playlistId: string) => {
+    setVideoId(videoId)
+    setPlaylistId(playlistId)
   }
 
   return (
     <div className={styles.img}>
       <span>プレイリスト</span>
-      {Object.entries(playList).map(([key, value], i) => (
-        <div key={i} className={styles.box} onClick={() => setVideo(key)}>
-          <div className={styles.boxImg}>{getImg(key)}</div>
+      {playList.map((item, i) => (
+        <div
+          key={i}
+          className={styles.box}
+          onClick={() => setVideo(item.videoId, item.id)}
+        >
+          <div className={styles.boxImg}>{getImg(item.videoId)}</div>
           <div className={styles.boxText}>
-            <span>test</span>
+            <span>{item.title}</span>
           </div>
         </div>
       ))}

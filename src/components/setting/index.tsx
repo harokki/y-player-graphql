@@ -1,22 +1,28 @@
-import React, { SetStateAction, Dispatch } from 'react'
+import React, { SetStateAction, Dispatch, useState, useEffect } from 'react'
 
-import { Item, YoutubeSetting } from '@/pages/index'
+import { YoutubeSetting } from '@/pages/index'
 
 import styles from './index.module.css'
+import { Setting, useUpdateSettingMutation } from '@/generated/graphql'
 
 type Props = {
-  getSettings: () => Item[]
-  updatePlayList: (index: number, name: string, value: string | boolean) => void
+  data: Setting[]
   startVideo: () => void
   setYoutubeSetting: Dispatch<SetStateAction<YoutubeSetting>>
 }
 
-export const Setting: React.FC<Props> = ({
-  getSettings,
-  updatePlayList,
+export const SettingTable: React.FC<Props> = ({
+  data,
   startVideo,
   setYoutubeSetting,
 }) => {
+  const [setting, setSetting] = useState<Setting[]>(data)
+  const [updateSetting] = useUpdateSettingMutation()
+
+  useEffect(() => {
+    setSetting(data)
+  }, [data])
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     i: number,
@@ -24,10 +30,29 @@ export const Setting: React.FC<Props> = ({
     const target = e.target
     const value = target.type === 'checkbox' ? target.checked : target.value
     const name = target.name
-    updatePlayList(i, name, value)
+    const copiedSetting = setting.slice()
+    copiedSetting[i] = { ...setting[i], [name]: value }
+    setSetting(copiedSetting)
   }
 
-  const playVideo = async (item: Item) => {
+  const saveSetting = async (i: number) => {
+    const item = setting[i]
+    const description = item.description ? item.description : ''
+    const { data } = await updateSetting({
+      variables: {
+        id: item.id,
+        description,
+        start: item.start,
+        end: item.end,
+        loop: item.loop,
+      },
+    })
+    if (!data || !data.update_setting_by_pk) {
+      console.log('POST unknown state', data)
+    }
+  }
+
+  const playVideo = async (item: Setting) => {
     await setYoutubeSetting({
       onEndSetting: {
         start: item.start,
@@ -52,8 +77,8 @@ export const Setting: React.FC<Props> = ({
           </tr>
         </thead>
         <tbody>
-          {getSettings()
-            ? getSettings().map((item, i) => (
+          {setting
+            ? setting.map((item, i) => (
                 <tr key={i}>
                   <td>
                     <input
@@ -101,6 +126,13 @@ export const Setting: React.FC<Props> = ({
                       }}
                     >
                       Play!
+                    </button>
+                    <button
+                      onClick={() => {
+                        saveSetting(i)
+                      }}
+                    >
+                      Save!
                     </button>
                   </td>
                 </tr>

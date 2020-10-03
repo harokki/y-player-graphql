@@ -1,0 +1,19 @@
+mutation postSetting(
+  $playlistId: uuid!
+  $description: String
+  $start: Int!
+  $end: Int!
+  $loop: Boolean!
+) {
+  insert_setting_one(
+    object: {
+      playlistId: $playlistId
+      description: $description
+      start: $start
+      end: $end
+      loop: $loop
+    }
+  ) {
+    id
+  }
+}

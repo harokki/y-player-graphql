@@ -1,0 +1,18 @@
+mutation updateSetting(
+  $id: uuid!
+  $description: String!
+  $start: Int!
+  $end: Int!
+  $loop: Boolean!
+) {
+  update_setting_by_pk(
+    pk_columns: { id: $id }
+    _set: { description: $description, start: $start, end: $end, loop: $loop }
+  ) {
+    id
+    description
+    start
+    end
+    loop
+  }
+}
