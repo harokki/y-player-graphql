@@ -3,13 +3,12 @@ import { useRouter } from 'next/router'
 import { useState, useRef } from 'react'
 import YouTube, { Options } from 'react-youtube'
 import { useGetPlayListQuery, useGetSettingQuery } from '@/generated/graphql'
+import { Grid } from 'semantic-ui-react'
 
 import { YplayerHeader } from '@/components/header'
 import { SettingTable } from '@/components/setting'
 import { MainForm } from '@/components/form'
 import { PlaylistMenu } from '@/components/playlist'
-
-import styles from './index.module.css'
 
 export type YoutubeSetting = {
   onEndSetting: PlayerSetting
@@ -102,29 +101,33 @@ const Playlist: NextPage = () => {
   return (
     <>
       <YplayerHeader />
-      <div className={styles.body}>
-        <div className={styles.youtube}>
-          <YouTube
-            videoId={videoId as string}
-            onEnd={onEnd}
-            opts={opts}
-            ref={playerRef}
-          />
-        </div>
-        <div className={styles.playlist}>
-          <PlaylistMenu playlist={data ? data.playlist : []} />
-        </div>
-      </div>
-      <div className={styles.mainForm}>{getMainForm()}</div>
-      <div className={styles.settingForm}>
-        {dataS && dataS.setting ? (
-          <SettingTable
-            data={dataS.setting}
-            startVideo={startVideo}
-            setYoutubeSetting={setYoutubeSetting}
-          />
-        ) : null}
-      </div>
+      <Grid columns={2}>
+        <Grid.Row>
+          <Grid.Column width={3}>
+            <PlaylistMenu playlist={data ? data.playlist : []} />
+          </Grid.Column>
+          <Grid.Column width={10}>
+            <div>
+              <YouTube
+                videoId={videoId as string}
+                onEnd={onEnd}
+                opts={opts}
+                ref={playerRef}
+              />
+            </div>
+            <div>{getMainForm()}</div>
+            <div>
+              {dataS && dataS.setting ? (
+                <SettingTable
+                  data={dataS.setting}
+                  startVideo={startVideo}
+                  setYoutubeSetting={setYoutubeSetting}
+                />
+              ) : null}
+            </div>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     </>
   )
 }

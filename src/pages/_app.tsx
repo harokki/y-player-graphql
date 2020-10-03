@@ -3,6 +3,7 @@ import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client'
 import { ApolloProvider } from '@apollo/react-hooks'
 
 import 'minireset.css'
+import 'semantic-ui-css/semantic.min.css'
 
 const createApolloClient = () => {
   return new ApolloClient({

@@ -1,9 +1,0 @@
-.playlist {
-  margin: 16px 48px 16px auto;
-  display: flex;
-  align-items: flex-start;
-  height: 100%;
-  overflow: auto;
-  overflow-y: scroll;
-  overflow-x: auto;
-}

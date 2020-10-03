@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+import { Menu } from 'semantic-ui-react'
 
 import styles from './index.module.css'
 import { Playlist } from '@/generated/graphql'
@@ -21,18 +22,22 @@ export const PlaylistMenu: React.FC<Props> = ({ playlist }) => {
   return (
     <div className={styles.img}>
       <span>プレイリスト</span>
-      {playlist.map((item, i) => (
-        <div
-          key={i}
-          className={styles.box}
-          onClick={() => setVideo(item.videoId, item.id)}
-        >
-          <div className={styles.boxImg}>{getImg(item.videoId)}</div>
-          <div className={styles.boxText}>
-            <span>{item.title}</span>
-          </div>
-        </div>
-      ))}
+      <Menu vertical={true}>
+        {playlist.map((item, i) => (
+          <Menu.Item>
+            <div
+              key={i}
+              className={styles.box}
+              onClick={() => setVideo(item.videoId, item.id)}
+            >
+              <div className={styles.boxImg}>{getImg(item.videoId)}</div>
+              <div className={styles.boxText}>
+                <span>{item.title}</span>
+              </div>
+            </div>
+          </Menu.Item>
+        ))}
+      </Menu>
     </div>
   )
 }
