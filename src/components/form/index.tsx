@@ -89,6 +89,7 @@ export const MainForm: React.FC<Props> = ({
             label="開始"
             type="number"
             placeholder={0}
+            defaultValue={start}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setStart(Number(e.target.value))
             }
@@ -98,10 +99,19 @@ export const MainForm: React.FC<Props> = ({
             label="終了"
             type="number"
             placeholder={0}
+            defaultValue={end}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setEnd(Number(e.target.value))
             }
           />
+        </Form.Group>
+        <Form.Group inline={true}>
+          <Form.Field control={Button} onClick={() => setNowTime('start')}>
+            開始時間取得
+          </Form.Field>
+          <Form.Field control={Button} onClick={() => setNowTime('end')}>
+            終了時間取得
+          </Form.Field>
         </Form.Group>
         <Form.Field
           control={Checkbox}
