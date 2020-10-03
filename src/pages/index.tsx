@@ -10,17 +10,6 @@ import { useGetPlayListQuery, useGetSettingQuery } from '@/generated/graphql'
 
 import styles from './index.module.css'
 
-export type Item = {
-  description: string | undefined
-  start: number | undefined
-  end: number | undefined
-  loop: boolean
-}
-
-export type PlayListItem = {
-  [videoId: string]: Item[]
-}
-
 export type YoutubeSetting = {
   onEndSetting: PlayerSetting
   playerVars: PlayerVars
