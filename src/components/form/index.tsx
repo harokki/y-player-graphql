@@ -1,9 +1,8 @@
 import React, { useState, Dispatch, SetStateAction, useCallback } from 'react'
+import { Form, Input, Button, Checkbox } from 'semantic-ui-react'
 
 import { YoutubeSetting } from '@/pages/index'
 import { usePostSettingMutation } from '@/generated/graphql'
-
-import styles from './index.module.css'
 
 type Props = {
   refetch: () => void
@@ -74,43 +73,53 @@ export const MainForm: React.FC<Props> = ({
   }
 
   return (
-    <form className={styles.form} onSubmit={handlePost}>
-      <label>
-        <span>説明</span>
-        <input
-          type="text"
-          name="description"
-          onChange={(e) => setTitle(e.target.value)}
+    <>
+      <Form>
+        <Form.Group widths="equal">
+          <Form.Field
+            control={Input}
+            label="説明"
+            placeholder="説明"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setTitle(e.target.value)
+            }
+          />
+          <Form.Field
+            control={Input}
+            label="開始"
+            type="number"
+            placeholder={0}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setStart(Number(e.target.value))
+            }
+          />
+          <Form.Field
+            control={Input}
+            label="終了"
+            type="number"
+            placeholder={0}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setEnd(Number(e.target.value))
+            }
+          />
+        </Form.Group>
+        <Form.Field
+          control={Checkbox}
+          label="繰り返し"
+          onClick={() => setLoop(!loop)}
         />
-      </label>
-      <label>
-        <span>開始</span>
-        <input type="text" name="start" defaultValue={start} disabled={true} />
-        <input
-          type="button"
-          value="現在時間取得"
-          onClick={() => setNowTime('start')}
-        />
-      </label>
-      <label>
-        <span>終了</span>
-        <input type="text" name="end" disabled={true} defaultValue={end} />
-        <input
-          type="button"
-          value="現在時間取得"
-          onClick={() => setNowTime('end')}
-        />
-      </label>
-      <label>
-        <span>繰り返し</span>
-        <input type="checkbox" name="loop" onClick={() => setLoop(!loop)} />
-      </label>
-      <label>
-        <input type="button" value="Play!" onClick={() => playVideo()} />
-      </label>
-      <label>
-        <button type="submit">Save!</button>
-      </label>
-    </form>
+        <Form.Group inline={true}>
+          <Form.Field control={Button} onClick={() => playVideo()}>
+            再生
+          </Form.Field>
+          <Form.Field
+            control={Button}
+            onClick={(ev: React.FormEvent<HTMLFormElement>) => handlePost(ev)}
+          >
+            保存
+          </Form.Field>
+        </Form.Group>
+      </Form>
+    </>
   )
 }
