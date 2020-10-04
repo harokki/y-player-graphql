@@ -101,7 +101,7 @@ const Playlist: NextPage = () => {
   return (
     <>
       <YplayerHeader />
-      <Grid columns={3}>
+      <Grid columns={3} stretched={true}>
         <Grid.Row>
           <Grid.Column width={3}>
             <PlaylistMenu playlist={data ? data.playlist : []} />

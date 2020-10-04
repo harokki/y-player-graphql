@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+import { Input } from 'semantic-ui-react'
 
 import styles from './index.module.css'
 
@@ -10,7 +11,7 @@ export const YplayerHeader: React.FC = () => {
         Y-player
       </div>
       <div className={styles.center}>
-        <input className={styles.searchInput} type="text" />
+        <Input className={styles.searchInput} type="text" />
       </div>
     </header>
   )

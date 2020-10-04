@@ -87,6 +87,7 @@ export const SettingTable: React.FC<Props> = ({
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       handleInputChange(e, i)
                     }
+                    size="mini"
                   />
                 </Table.Cell>
                 <Table.Cell>
@@ -97,6 +98,7 @@ export const SettingTable: React.FC<Props> = ({
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       handleInputChange(e, i)
                     }
+                    size="mini"
                   />
                 </Table.Cell>
                 <Table.Cell>
@@ -107,6 +109,7 @@ export const SettingTable: React.FC<Props> = ({
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       handleInputChange(e, i)
                     }
+                    size="mini"
                   />
                 </Table.Cell>
                 <Table.Cell>
@@ -117,6 +120,7 @@ export const SettingTable: React.FC<Props> = ({
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       handleInputChange(e, i)
                     }
+                    size="mini"
                   />
                 </Table.Cell>
                 <Table.Cell>
@@ -125,7 +129,7 @@ export const SettingTable: React.FC<Props> = ({
                       playVideo(item)
                     }}
                   >
-                    Play!
+                    再生
                   </Button>
                 </Table.Cell>
                 <Table.Cell>
@@ -134,7 +138,7 @@ export const SettingTable: React.FC<Props> = ({
                       saveSetting(i)
                     }}
                   >
-                    Save!
+                    保存
                   </Button>
                 </Table.Cell>
               </Table.Row>
