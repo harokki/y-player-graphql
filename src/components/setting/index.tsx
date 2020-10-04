@@ -1,8 +1,8 @@
 import React, { SetStateAction, Dispatch, useState, useEffect } from 'react'
+import { Button, Table, Input } from 'semantic-ui-react'
 
 import { YoutubeSetting } from '@/pages/index'
 
-import styles from './index.module.css'
 import { Setting, useUpdateSettingMutation } from '@/generated/graphql'
 
 type Props = {
@@ -65,81 +65,82 @@ export const SettingTable: React.FC<Props> = ({
   }
 
   return (
-    <div className={styles.setting}>
-      <table>
-        <thead>
-          <tr>
-            <th>説明</th>
-            <th>開始</th>
-            <th>終了</th>
-            <th>繰り返し</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {setting
-            ? setting.map((item, i) => (
-                <tr key={i}>
-                  <td>
-                    <input
-                      name="description"
-                      value={item.description ? item.description : ''}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleInputChange(e, i)
-                      }
-                    />
-                  </td>
-                  <td>
-                    <input
-                      name="start"
-                      type="number"
-                      value={item.start ? item.start : 0}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleInputChange(e, i)
-                      }
-                    />
-                  </td>
-                  <td>
-                    <input
-                      name="end"
-                      type="number"
-                      value={item.end ? item.end : 0}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleInputChange(e, i)
-                      }
-                    />
-                  </td>
-                  <td>
-                    <input
-                      name="loop"
-                      type="checkbox"
-                      checked={item.loop}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleInputChange(e, i)
-                      }
-                    />
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => {
-                        playVideo(item)
-                      }}
-                    >
-                      Play!
-                    </button>
-                    <button
-                      onClick={() => {
-                        saveSetting(i)
-                      }}
-                    >
-                      Save!
-                    </button>
-                  </td>
-                </tr>
-              ))
-            : null}
-        </tbody>
-      </table>
-    </div>
+    <Table celled padded>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>説明</Table.HeaderCell>
+          <Table.HeaderCell>開始</Table.HeaderCell>
+          <Table.HeaderCell>終了</Table.HeaderCell>
+          <Table.HeaderCell>繰返し</Table.HeaderCell>
+          <Table.HeaderCell></Table.HeaderCell>
+          <Table.HeaderCell></Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {setting
+          ? setting.map((item, i) => (
+              <Table.Row key={i}>
+                <Table.Cell>
+                  <Input
+                    name="description"
+                    value={item.description ? item.description : ''}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      handleInputChange(e, i)
+                    }
+                  />
+                </Table.Cell>
+                <Table.Cell>
+                  <Input
+                    name="start"
+                    type="number"
+                    value={item.start ? item.start : 0}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      handleInputChange(e, i)
+                    }
+                  />
+                </Table.Cell>
+                <Table.Cell>
+                  <Input
+                    name="end"
+                    type="number"
+                    value={item.end ? item.end : 0}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      handleInputChange(e, i)
+                    }
+                  />
+                </Table.Cell>
+                <Table.Cell>
+                  <Input
+                    name="loop"
+                    type="checkbox"
+                    checked={item.loop}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      handleInputChange(e, i)
+                    }
+                  />
+                </Table.Cell>
+                <Table.Cell>
+                  <Button
+                    onClick={() => {
+                      playVideo(item)
+                    }}
+                  >
+                    Play!
+                  </Button>
+                </Table.Cell>
+                <Table.Cell>
+                  <Button
+                    onClick={() => {
+                      saveSetting(i)
+                    }}
+                  >
+                    Save!
+                  </Button>
+                </Table.Cell>
+              </Table.Row>
+            ))
+          : null}
+      </Table.Body>
+    </Table>
   )
 }
