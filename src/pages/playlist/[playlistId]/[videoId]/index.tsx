@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useState, useRef } from 'react'
 import YouTube, { Options } from 'react-youtube'
 import { useGetPlayListQuery, useGetSettingQuery } from '@/generated/graphql'
-import { Grid } from 'semantic-ui-react'
+import { Grid, Sticky } from 'semantic-ui-react'
 
 import { YplayerHeader } from '@/components/header'
 import { SettingTable } from '@/components/setting'
@@ -100,31 +100,29 @@ const Playlist: NextPage = () => {
 
   return (
     <>
-      <YplayerHeader />
-      <Grid columns={2}>
+      <Sticky>
+        <YplayerHeader />
+      </Sticky>
+      <Grid columns={2} stretched={true}>
         <Grid.Row>
-          <Grid.Column width={3}>
+          <Grid.Column width={4}>
+            <div>{getMainForm()}</div>
             <PlaylistMenu playlist={data ? data.playlist : []} />
           </Grid.Column>
-          <Grid.Column width={10}>
-            <div>
-              <YouTube
-                videoId={videoId as string}
-                onEnd={onEnd}
-                opts={opts}
-                ref={playerRef}
+          <Grid.Column width={11}>
+            <YouTube
+              videoId={videoId as string}
+              onEnd={onEnd}
+              opts={opts}
+              ref={playerRef}
+            />
+            {dataS && dataS.setting ? (
+              <SettingTable
+                data={dataS.setting}
+                startVideo={startVideo}
+                setYoutubeSetting={setYoutubeSetting}
               />
-            </div>
-            <div>{getMainForm()}</div>
-            <div>
-              {dataS && dataS.setting ? (
-                <SettingTable
-                  data={dataS.setting}
-                  startVideo={startVideo}
-                  setYoutubeSetting={setYoutubeSetting}
-                />
-              ) : null}
-            </div>
+            ) : null}
           </Grid.Column>
         </Grid.Row>
       </Grid>

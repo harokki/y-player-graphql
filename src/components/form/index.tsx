@@ -75,36 +75,36 @@ export const MainForm: React.FC<Props> = ({
   return (
     <>
       <Form>
-        <Form.Group widths="equal">
-          <Form.Field
-            control={Input}
-            label="説明"
-            placeholder="説明"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setTitle(e.target.value)
-            }
-          />
-          <Form.Field
-            control={Input}
-            label="開始"
-            type="number"
-            placeholder={0}
-            defaultValue={start}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setStart(Number(e.target.value))
-            }
-          />
-          <Form.Field
-            control={Input}
-            label="終了"
-            type="number"
-            placeholder={0}
-            defaultValue={end}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setEnd(Number(e.target.value))
-            }
-          />
-        </Form.Group>
+        <Form.Field
+          control={Input}
+          label="説明"
+          placeholder="説明"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setTitle(e.target.value)
+          }
+        />
+        <Form.Field
+          control={Input}
+          label="開始"
+          type="number"
+          placeholder={0}
+          defaultValue={start}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setStart(Number(e.target.value))
+          }
+          disabled={true}
+        />
+        <Form.Field
+          control={Input}
+          label="終了"
+          type="number"
+          placeholder={0}
+          defaultValue={end}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setEnd(Number(e.target.value))
+          }
+          disabled={true}
+        />
         <Form.Group inline={true}>
           <Form.Field control={Button} onClick={() => setNowTime('start')}>
             開始時間取得
