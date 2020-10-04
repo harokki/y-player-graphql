@@ -24,7 +24,7 @@ export const PlaylistMenu: React.FC<Props> = ({ playlist }) => {
       <span>プレイリスト</span>
       <Menu vertical={true}>
         {playlist.map((item, i) => (
-          <Menu.Item>
+          <Menu.Item key={i}>
             <div
               key={i}
               className={styles.box}
