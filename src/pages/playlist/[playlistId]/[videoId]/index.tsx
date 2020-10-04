@@ -101,12 +101,12 @@ const Playlist: NextPage = () => {
   return (
     <>
       <YplayerHeader />
-      <Grid columns={2}>
+      <Grid columns={3}>
         <Grid.Row>
           <Grid.Column width={3}>
             <PlaylistMenu playlist={data ? data.playlist : []} />
           </Grid.Column>
-          <Grid.Column width={10}>
+          <Grid.Column width={9}>
             <div>
               <YouTube
                 videoId={videoId as string}
@@ -115,7 +115,6 @@ const Playlist: NextPage = () => {
                 ref={playerRef}
               />
             </div>
-            <div>{getMainForm()}</div>
             <div>
               {dataS && dataS.setting ? (
                 <SettingTable
@@ -125,6 +124,9 @@ const Playlist: NextPage = () => {
                 />
               ) : null}
             </div>
+          </Grid.Column>
+          <Grid.Column width={3}>
+            <div>{getMainForm()}</div>
           </Grid.Column>
         </Grid.Row>
       </Grid>
