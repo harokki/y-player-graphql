@@ -1,23 +1,39 @@
 import { useRouter } from 'next/router'
-import { Input, Header } from 'semantic-ui-react'
-
-import styles from './index.module.css'
+import { Input, Menu, Form, Image, Icon } from 'semantic-ui-react'
 
 export const YplayerHeader: React.FC = () => {
   const router = useRouter()
   return (
-    <Header className={styles.header}>
-      <div className={styles.left} onClick={() => router.push(`/`)}>
-        Y-player
-      </div>
-      <div className={styles.center}>
-        <Input
-          className={styles.searchInput}
-          type="text"
-          action={{ icon: 'search' }}
-          placeholder="Search..."
-        />
-      </div>
-    </Header>
+    <Menu borderless className="top-menu" fixed="top">
+      <Menu.Item header className="logo">
+        <div onClick={() => router.push(`/`)}>Y-player</div>
+      </Menu.Item>
+      <Menu.Menu className="nav-container">
+        <Menu.Item className="search-input">
+          <Form>
+            <Form.Field>
+              <Input placeholder="Search" size="small" action="Go" />
+            </Form.Field>
+          </Form>
+        </Menu.Item>
+        <Menu.Menu position="right">
+          <Menu.Item>
+            <Icon className="header-icon" name="video camera" size="large" />
+          </Menu.Item>
+          <Menu.Item>
+            <Icon className="header-icon" name="grid layout" size="large" />
+          </Menu.Item>
+          <Menu.Item>
+            <Icon className="header-icon" name="chat" size="large" />
+          </Menu.Item>
+          <Menu.Item>
+            <Icon className="header-icon" name="alarm" size="large" />
+          </Menu.Item>
+          <Menu.Item name="avatar">
+            <Image src="https://via.placeholder.com/80x80" avatar />
+          </Menu.Item>
+        </Menu.Menu>
+      </Menu.Menu>
+    </Menu>
   )
 }
