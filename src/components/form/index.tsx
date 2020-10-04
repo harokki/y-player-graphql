@@ -93,6 +93,7 @@ export const MainForm: React.FC<Props> = ({
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setStart(Number(e.target.value))
             }
+            disabled={true}
           />
           <Form.Field
             control={Input}
@@ -103,6 +104,7 @@ export const MainForm: React.FC<Props> = ({
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setEnd(Number(e.target.value))
             }
+            disabled={true}
           />
         </Form.Group>
         <Form.Group inline={true}>
