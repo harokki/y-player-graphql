@@ -1,0 +1,9 @@
+mutation deleteSetting($id: uuid!) {
+  delete_setting_by_pk(id: $id) {
+    id
+    description
+    start
+    end
+    loop
+  }
+}
