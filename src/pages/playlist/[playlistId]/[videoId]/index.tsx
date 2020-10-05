@@ -9,6 +9,8 @@ import { SettingTable } from '@/components/setting'
 import { MainForm } from '@/components/form'
 import { SideBar } from '@/components/side-bar'
 
+import styles from './index.module.css'
+
 export type YoutubeSetting = {
   onEndSetting: PlayerSetting
   playerVars: PlayerVars
@@ -101,19 +103,21 @@ const Playlist: NextPage = () => {
     <>
       <YplayerHeader />
       <SideBar mainForm={getMainForm()} />
-      <YouTube
-        videoId={videoId as string}
-        onEnd={onEnd}
-        opts={opts}
-        ref={playerRef}
-      />
-      {dataS && dataS.setting ? (
-        <SettingTable
-          data={dataS.setting}
-          startVideo={startVideo}
-          setYoutubeSetting={setYoutubeSetting}
+      <div className={styles.main}>
+        <YouTube
+          videoId={videoId as string}
+          onEnd={onEnd}
+          opts={opts}
+          ref={playerRef}
         />
-      ) : null}
+        {dataS && dataS.setting ? (
+          <SettingTable
+            data={dataS.setting}
+            startVideo={startVideo}
+            setYoutubeSetting={setYoutubeSetting}
+          />
+        ) : null}
+      </div>
     </>
   )
 }
