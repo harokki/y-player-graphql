@@ -2,13 +2,10 @@ import { useRouter } from 'next/router'
 import { Menu } from 'semantic-ui-react'
 
 import styles from './index.module.css'
-import { Playlist } from '@/generated/graphql'
+import { useGetPlayListQuery } from '@/generated/graphql'
 
-type Props = {
-  playlist: Playlist[]
-}
-
-export const PlaylistMenu: React.FC<Props> = ({ playlist }) => {
+export const PlaylistMenu: React.FC = () => {
+  const { loading, error, data } = useGetPlayListQuery()
   const router = useRouter()
   const getImg = (videoId: string) => {
     const url = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`
@@ -19,10 +16,19 @@ export const PlaylistMenu: React.FC<Props> = ({ playlist }) => {
     router.push(`/playlist/${playlistId}/${videoId}`)
   }
 
+  if (loading) {
+    return <p>loading...</p>
+  }
+  if (error) {
+    return <p>{error.toString()}</p>
+  }
+
+  const playlist = data ? data.playlist : []
+
   return (
     <div className={styles.img}>
-      <span>プレイリスト</span>
-      <Menu vertical={true}>
+      <Menu.Item>
+        <Menu.Header>プレイリスト</Menu.Header>
         {playlist.map((item, i) => (
           <Menu.Item key={i}>
             <div
@@ -37,7 +43,7 @@ export const PlaylistMenu: React.FC<Props> = ({ playlist }) => {
             </div>
           </Menu.Item>
         ))}
-      </Menu>
+      </Menu.Item>
     </div>
   )
 }
