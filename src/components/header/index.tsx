@@ -1,16 +1,18 @@
 import { useRouter } from 'next/router'
 import { Input, Menu, Form, Image, Icon } from 'semantic-ui-react'
 
+import styles from './index.module.css'
+
 export const YplayerHeader: React.FC = () => {
   const router = useRouter()
   return (
-    <Menu borderless className="top-menu" fixed="top">
-      <Menu.Item header className="logo">
+    <Menu borderless className={styles.topMenu} fixed="top">
+      <Menu.Item header className={styles.logo}>
         <div onClick={() => router.push(`/`)}>Y-player</div>
       </Menu.Item>
-      <Menu.Menu className="nav-container">
-        <Menu.Item className="search-input">
-          <Form>
+      <Menu.Menu className={styles.navContainer}>
+        <Menu.Item className={styles.searchInput}>
+          <Form className={styles.searchForm}>
             <Form.Field>
               <Input placeholder="Search" size="small" action="Go" />
             </Form.Field>
