@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useState, useRef } from 'react'
 import YouTube, { Options } from 'react-youtube'
 import { useGetPlayListQuery, useGetSettingQuery } from '@/generated/graphql'
-import { Grid, Sticky } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
 
 import { YplayerHeader } from '@/components/header'
 import { SettingTable } from '@/components/setting'
@@ -100,9 +100,7 @@ const Playlist: NextPage = () => {
 
   return (
     <>
-      <Sticky>
-        <YplayerHeader />
-      </Sticky>
+      <YplayerHeader />
       <Grid columns={2} stretched={true}>
         <Grid.Row>
           <Grid.Column width={4}>
