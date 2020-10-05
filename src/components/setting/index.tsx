@@ -3,7 +3,11 @@ import { Button, Table, Input } from 'semantic-ui-react'
 
 import { YoutubeSetting } from '@/pages/index'
 
-import { Setting, useUpdateSettingMutation } from '@/generated/graphql'
+import {
+  Setting,
+  useUpdateSettingMutation,
+  useDeleteSettingMutation,
+} from '@/generated/graphql'
 
 type Props = {
   data: Setting[]
@@ -18,6 +22,7 @@ export const SettingTable: React.FC<Props> = ({
 }) => {
   const [setting, setSetting] = useState<Setting[]>(data)
   const [updateSetting] = useUpdateSettingMutation()
+  const [deleteSetting] = useDeleteSettingMutation()
 
   useEffect(() => {
     setSetting(data)
@@ -52,6 +57,18 @@ export const SettingTable: React.FC<Props> = ({
     }
   }
 
+  const clickDeleteSetting = async (id: string, index: number) => {
+    const { data } = await deleteSetting({ variables: { id } })
+    if (data && data.delete_setting_by_pk) {
+      const copied = setting.slice(0)
+      copied.splice(index, 1)
+      setSetting(copied)
+    }
+    if (!data || !data.delete_setting_by_pk) {
+      console.log('DELETE unknown state', data)
+    }
+  }
+
   const playVideo = async (item: Setting) => {
     await setYoutubeSetting({
       onEndSetting: {
@@ -72,6 +89,7 @@ export const SettingTable: React.FC<Props> = ({
           <Table.HeaderCell>開始</Table.HeaderCell>
           <Table.HeaderCell>終了</Table.HeaderCell>
           <Table.HeaderCell>繰返し</Table.HeaderCell>
+          <Table.HeaderCell></Table.HeaderCell>
           <Table.HeaderCell></Table.HeaderCell>
           <Table.HeaderCell></Table.HeaderCell>
         </Table.Row>
@@ -139,6 +157,11 @@ export const SettingTable: React.FC<Props> = ({
                     }}
                   >
                     保存
+                  </Button>
+                </Table.Cell>
+                <Table.Cell>
+                  <Button onClick={() => clickDeleteSetting(item.id, i)}>
+                    削除
                   </Button>
                 </Table.Cell>
               </Table.Row>
