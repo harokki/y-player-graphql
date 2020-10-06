@@ -23,19 +23,14 @@ export const MainForm: React.FC<Props> = ({
   const [end, setEnd] = useState<number | undefined>(undefined)
   const [title, setTitle] = useState<string | undefined>(undefined)
   const [loop, setLoop] = useState<boolean>(false)
-  const [postDisabled, setPostDisabled] = useState<boolean>(false)
   const [postSetting] = usePostSettingMutation()
 
   const handlePost = useCallback(
     async (ev: React.FormEvent<HTMLFormElement>) => {
       ev.preventDefault()
-      if (postDisabled) {
-        return
-      }
 
       const convStart = start ? start : 0
       const convEnd = end ? end : 0
-      setPostDisabled(true)
       const { data } = await postSetting({
         variables: {
           playlistId,
@@ -47,12 +42,11 @@ export const MainForm: React.FC<Props> = ({
       })
       if (data && data.insert_setting_one) {
         refetch()
-        setPostDisabled(false)
       } else {
         console.log('POST unknown state', data)
       }
     },
-    [start, end, loop, title, postSetting, playlistId, postDisabled, refetch],
+    [start, end, loop, title, postSetting, playlistId, refetch],
   )
 
   const playVideo = async () => {
