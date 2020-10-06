@@ -1,5 +1,8 @@
 query getSetting($playlistId: uuid!) {
-  setting(where: { playlistId: { _eq: $playlistId } }) {
+  setting(
+    where: { playlistId: { _eq: $playlistId } }
+    order_by: { createdAt: desc }
+  ) {
     id
     playlistId
     description
