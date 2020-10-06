@@ -1,5 +1,5 @@
 query getPlayList {
-  playlist {
+  playlist(order_by: { createdAt: desc }) {
     id
     videoId
     title
