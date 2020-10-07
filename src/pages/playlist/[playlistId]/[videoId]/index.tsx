@@ -8,7 +8,6 @@ import { YplayerHeader } from '@/components/header'
 import { SettingTable } from '@/components/setting'
 import { MainForm } from '@/components/form'
 import { SideBar } from '@/components/side-bar'
-import { DissmissibleMessage } from '@/components/message'
 
 import styles from './index.module.css'
 
@@ -110,7 +109,6 @@ const Playlist: NextPage = () => {
           />
         ) : null}
       </div>
-      <DissmissibleMessage />
     </>
   )
 }
