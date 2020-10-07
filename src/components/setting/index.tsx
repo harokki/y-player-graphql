@@ -23,6 +23,7 @@ export const SettingTable: React.FC<Props> = ({
 }) => {
   const [setting, setSetting] = useState<Setting[]>(data)
   const [updateNotification, setUpdateNotification] = useState<boolean>(false)
+  const [deleteNotification, setDeleteNotification] = useState<boolean>(false)
   const [updateSetting] = useUpdateSettingMutation()
   const [deleteSetting] = useDeleteSettingMutation()
 
@@ -43,6 +44,7 @@ export const SettingTable: React.FC<Props> = ({
   }
 
   const saveSetting = async (i: number) => {
+    setDeleteNotification(false)
     setUpdateNotification(false)
     const item = setting[i]
     const description = item.description ? item.description : ''
@@ -62,11 +64,14 @@ export const SettingTable: React.FC<Props> = ({
   }
 
   const clickDeleteSetting = async (id: string, index: number) => {
+    setUpdateNotification(false)
+    setDeleteNotification(false)
     const { data } = await deleteSetting({ variables: { id } })
     if (data && data.delete_setting_by_pk) {
       const copied = setting.slice(0)
       copied.splice(index, 1)
       setSetting(copied)
+      setDeleteNotification(true)
     }
     if (!data || !data.delete_setting_by_pk) {
       console.log('DELETE unknown state', data)
@@ -174,7 +179,8 @@ export const SettingTable: React.FC<Props> = ({
             : null}
         </Table.Body>
       </Table>
-      {updateNotification && <DissmissibleMessage />}
+      {updateNotification && <DissmissibleMessage content="保存しました" />}
+      {deleteNotification && <DissmissibleMessage content="削除しました" />}
     </>
   )
 }
