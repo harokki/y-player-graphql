@@ -2,7 +2,7 @@ import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useState, useRef } from 'react'
 import YouTube, { Options } from 'react-youtube'
-import { useGetPlayListQuery, useGetSettingQuery } from '@/generated/graphql'
+import { useGetSettingQuery } from '@/generated/graphql'
 
 import { YplayerHeader } from '@/components/header'
 import { SettingTable } from '@/components/setting'
@@ -35,13 +35,7 @@ const Playlist: NextPage = () => {
     playerVars: { start: undefined, end: undefined },
   })
   const playerRef = useRef<any | undefined>()
-  const { loading, error, data } = useGetPlayListQuery()
-  const {
-    loading: loadingS,
-    error: errorS,
-    data: dataS,
-    refetch,
-  } = useGetSettingQuery({
+  const { loading, error, data, refetch } = useGetSettingQuery({
     variables: { playlistId: playlistId as string },
   })
 
@@ -72,9 +66,6 @@ const Playlist: NextPage = () => {
     if (!playlistId) {
       return null
     }
-    if (errorS) {
-      return <p>{errorS.toString()}</p>
-    }
     return (
       <MainForm
         refetch={refetch}
@@ -92,7 +83,7 @@ const Playlist: NextPage = () => {
     playerVars: youtubeSetting.playerVars,
   }
 
-  if (loading || loadingS) {
+  if (loading) {
     return <p>loading...</p>
   }
   if (error) {
@@ -110,9 +101,9 @@ const Playlist: NextPage = () => {
           opts={opts}
           ref={playerRef}
         />
-        {dataS && dataS.setting ? (
+        {data && data.setting ? (
           <SettingTable
-            data={dataS.setting}
+            data={data.setting}
             startVideo={startVideo}
             setYoutubeSetting={setYoutubeSetting}
           />
