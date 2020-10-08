@@ -3,6 +3,7 @@ import { Form, Input, Button, Checkbox } from 'semantic-ui-react'
 
 import { YoutubeSetting } from '@/pages/index'
 import { usePostSettingMutation } from '@/generated/graphql'
+import { DissmissibleMessage } from '@/components/message'
 
 type Props = {
   refetch: () => void
@@ -23,10 +24,12 @@ export const MainForm: React.FC<Props> = ({
   const [end, setEnd] = useState<number | undefined>(undefined)
   const [title, setTitle] = useState<string | undefined>(undefined)
   const [loop, setLoop] = useState<boolean>(false)
+  const [saveNotification, setSaveNotification] = useState<boolean>(false)
   const [postSetting] = usePostSettingMutation()
 
   const handlePost = useCallback(
     async (ev: React.FormEvent<HTMLFormElement>) => {
+      setSaveNotification(false)
       ev.preventDefault()
 
       const convStart = start ? start : 0
@@ -42,6 +45,7 @@ export const MainForm: React.FC<Props> = ({
       })
       if (data && data.insert_setting_one) {
         refetch()
+        setSaveNotification(true)
       } else {
         console.log('POST unknown state', data)
       }
@@ -124,6 +128,7 @@ export const MainForm: React.FC<Props> = ({
           </Form.Field>
         </Form.Group>
       </Form>
+      {saveNotification && <DissmissibleMessage content="保存しました" />}
     </>
   )
 }
